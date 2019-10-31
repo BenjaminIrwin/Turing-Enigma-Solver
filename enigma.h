@@ -8,6 +8,16 @@ class Enigma
 	
 	void input (int argv, char* argc[]);
 
+	bool even_number_test(int number, int& error);
+
+	bool repetition_test(int num_array[], int array_pos);
+
+	bool range_test(int num_array[], int array_pos);
+
+	bool symbol_check(ifstream& input_file);
+
+	void set_plugboard(char* filename);
+/*
 	void plugboard;
 
 	void rotor;
@@ -15,8 +25,9 @@ class Enigma
 	void reflector;
 
 	void output;
+*/
 private:
-	int plugboard[26];
+	//int plugboard[26];
 	
 }
 

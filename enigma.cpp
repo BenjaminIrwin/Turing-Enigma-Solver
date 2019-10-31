@@ -1,29 +1,27 @@
 #include "enigma.h"
 #include <fstream>
 
-Enigma::input(int argv, char* argc[])
+void Enigma::input(int argv, char* argc[])
 {
 	if (argv < 4)
 	{
 		return INSUFFICIENT_NUMBER_OF_PARAMETERS;
 	}
-
-	ifstream plugboard;
-	plugboard.open(argc[1]);
-
-
 	
 }
 
-Enigma::even_number_test(int number, int& error)
+bool Enigma::even_number_test(int number, int& error)
 {
 	if (!(number % 2))
 	{
-		return ERROR;
+		return true;
+	} else
+	{
+		return false;
 	}
 }
 
-void Enigma::repetition_test (int num_array[], int array_pos)
+bool Enigma::repetition_test (int num_array[], int array_pos)
 {
 //Checks all ints behind current one in array
 //to see if previously appeared.
@@ -32,7 +30,7 @@ void Enigma::repetition_test (int num_array[], int array_pos)
 	{
 		if(num_array[i] == num_array[array_pos])
 		{
-			return ERROR;
+			return false;
 		}
 	}	
 
@@ -40,13 +38,13 @@ void Enigma::repetition_test (int num_array[], int array_pos)
 
 }
 
-void Engima::range_test(int num_array[], int array_pos)
+bool Engima::range_test(int num_array[], int array_pos)
 {
 //Checks if number is >=0 and < 26
 
 	if(num_array[array_pos] < 0 || num_array[array_pos] > 26)
 	{
-		return ERROR;
+		return false;
 	} else
 	{
 		return true;
@@ -54,49 +52,92 @@ void Engima::range_test(int num_array[], int array_pos)
 
 }
 
-Enigma::check_number()
+bool Enigma::symbol_check(ifstream& input_file)
 {
-//Checks if character being read is numeric
-//Needs to be called before range_test. 
+
+//Use .get to look three chars ahead
+//If symbol then return error code
+//Else return three slots back.
+	for (int i = 1; i = 3; i++)
+	{
+		char h;
+		plugboard_file.get(h);
+		if (plugboard_file.eof)
+		{
+			plugboard_file.seekg(-i);
+			return true;
+		} else if (!(h < 48 || h > 57))
+		{
+			return false;
+		} 
+	}
+		
+	plugboard_file.seekg(-3); //Or -4, investigate.
+	return true;
+
 }
 
-Enigma::set_plugboard(char* filename)
+void Enigma::set_plugboard(char* filename)
 {
 	ifstream plugboard_file;
 	plugboard_file.open(filename);
 
-	plugboard.seekg(ios::end);
-	int size = plugboard_file.tellg();
-	plugboard_file.seekg(ios::beg);
+	int index = 0;
+	bool break = false;
 
-	plugboard[0] = 1;
+	int plugboard[30];
 
-	for (int index = 0; index <= size && !plugboard_file.eof() && 
-	range_test(plugboard[i]) && repetition_test(plugboard[i]); index++)
+	if(!(symbol_check(plugboard_file)))
+	{
+		return NON_NUMERIC_CHARACTER;
+	}
+
+	for (index = 0 ; index < 26 ; index++)
 	{
 
-		//Return error if index steps over 26
-		if (index > 26)
+		plugboard_file >> plugboard[i];
+
+		if(plugboard_file.eof())
 		{
-			return error;
+			goto end;
 		}
 
-		//Use .get to look three chars ahead
-		//If symbol then return error code
-		//Else return three slots back.
-		char h;
-		for (int i = 0; i = 2; i++)
+		if (!(range_test(plugboard, i))
 		{
-			plugboard_file.get(h);
-			if (!(h < 48 || h > 57))
-			{
-				return ERROR;
-			} 
+			return INVALID_INDEX;
 		}
 		
-		plugboard_file.seekg(-3); //Or -4, investigate.
+		if (i > 0) 
+		{
+			if(!(repetition_test(plugboard, i)))
+			{
+				return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+			}
+		}
 
-		plugboard_file >> plugboard[i];
+		if(!(symbol_check(plugboard_file)))
+		{	
+			return NON_NUMERIC CHARACTER;
+		}
 	}	
+	
+	end:
+
+	plugboard_file.close();
+
+	//Return error if number of ints in
+	//array steps over 26
+	if (index > 25)
+	{
+		return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+	}
+
+	//Return error if odd number of numbers read in
+	if (!(index % 2))
+	{
+		return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
+	}
+
+
 }
 
