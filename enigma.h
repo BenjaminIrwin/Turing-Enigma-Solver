@@ -25,6 +25,10 @@ public:
 	int set_plugboard(char const filename[]);
 
 	int set_rotor(char const filename[]);
+	
+	int set_rotor_pos(char const filename[], int num_of_rotors);
+
+	int set_reflector(char const filename[]);
 
 /*
 	void plugboard;
@@ -38,10 +42,15 @@ public:
 
 private:
 	int plugboard[26];
-	int plugboardIndex;
+	int plugboard_size;
 
 	int rotor[26];
+
+	int notches[26];
+	int num_notches;
 	
+	int reflector[26];
+
 };
 
 #endif
