@@ -1,109 +1,78 @@
 #include "enigma.h"
+#include "helper.h"
 #include "errors.h"
 #include <fstream>
 #include <istream>
 #include <iostream>
 using namespace std;
-/*
-void Enigma::input(int argv, char* argc[])
-{
-	if (argv < 4)
-	{
-		return INSUFFICIENT_NUMBER_OF_PARAMETERS;
-	}
-	
-}
-*/
 
-bool Enigma::repetition_test (int num_array[], int array_pos)
+void Plugboard::operate_plugboard(char i, char& o)
 {
-//Checks all ints behind current one in array
-//to see if previously appeared.
-	
-	for (int i = array_pos - 1; i >= 0; i--)
+
+	for (int a = 0; a <= plugboard_size; a++)
 	{
-		if(num_array[i] == num_array[array_pos])
+		if (i - 65 == plugboard[a])
 		{
-			return false;
+			if (a % 2)
+			{
+				
+				o = (plugboard[a - 1] + 65);
+				return;
+			}
+
+			if (!(a % 2))
+			{
+				o = (plugboard[a + 1] + 65);
+				return;
+			}
 		}
-	}	
-
-	return true;
-
-}
-
-bool Enigma::range_test(int num_array[], int array_pos)
-{
-//Checks if number is >=0 and < 26
-
-	if(num_array[array_pos] < 0 || num_array[array_pos] > 25)
-	{
-		return false;
-	} else
-	{
-		return true;
-	}
-
-}
-
-bool Enigma::symbol_test(ifstream& input_file)
-{
-
-//Use .get to look three chars ahead
-//If symbol then return error code
-//Else return three slots back.
-
-	for (int i = 1; i <= 3; i++)
-	{
-		char h;
-		input_file.get(h);
-		if (h == '\n' || input_file.eof())
-		{
-			input_file.seekg(-i, ios_base::cur);
-			return true;
-		} 
-
-		if (h != ' ' && h != '-' && (h < 48 || h > 57))
-		{
-			return false;
-		} 
-		
 	}
 	
-	input_file.seekg(-3, ios_base::cur); 
-	return true;
-}
+	o = i;
 
-bool Enigma::eof_test(ifstream& input_file)
+} 
+
+void Reflector::operate_reflector(char i, char& o)
 {
 
-	char c;
-	int offset = input_file.tellg();
-	input_file >> c;
-	
-	if(c == '\n' || input_file.eof())
+	for (int a = 0; a <= 25; a++)
 	{
-		return true;
-	} 
+		if (i - 65 == reflector[a])
+		{
+			if (a % 2)
+			{
+				
+				o = (reflector[a - 1] + 65);
+				return;
+			}
 
-	input_file.seekg(offset, ios_base::beg);
-	return false;
-}
+			if (!(a % 2))
+			{
+				o = (reflector[a + 1] + 65);
+				return;
+			}
+		}
+	}
 
-int Enigma::set_plugboard(char const filename[])
+} 
+
+bool Plugboard::set_plugboard(char const filename[], int& error)
 {
 	ifstream plugboard_file;
 	plugboard_file.open(filename);
 	if(plugboard_file.fail())
 	{
-		cout << "Plugboard open failed." << endl;		
+		cout << "Plugboard open failed." << endl;
+		error = ERROR_OPENING_CONFIGURATION_FILE;
+		return false;
 	}
 
 	//Empty file check
 	if (eof_test(plugboard_file))
 	{
 		cout << "Plugboard file empty." << endl;
-		return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
+		return false;
 	}
 
 	int index;
@@ -115,7 +84,8 @@ int Enigma::set_plugboard(char const filename[])
 		{
 			cout << "Non numeric character found in plugboard file at index " 
 			<< index << endl;	
-			return NON_NUMERIC_CHARACTER;
+			error = NON_NUMERIC_CHARACTER;
+			return false;
 		}
 
 
@@ -125,7 +95,8 @@ int Enigma::set_plugboard(char const filename[])
 		{
 			cout << "Number out of range found in plugboard file at index " 
 			<< index << endl;
-			return INVALID_INDEX;
+			error = INVALID_INDEX;
+			return false;
 		}
 		
 		if (index > 0) 
@@ -134,7 +105,8 @@ int Enigma::set_plugboard(char const filename[])
 			{
 				cout << "Repetition found in plugboard file at index " 
 				<< index << endl;
-				return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+				error = IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+				return false;
 			}
 		}
 	}	
@@ -146,7 +118,8 @@ int Enigma::set_plugboard(char const filename[])
 	{
 		cout << "Too many ints in file." << endl;
 		plugboard_file.close();
-		return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
+		return false;
 	}
 
 		plugboard_file.close();
@@ -156,24 +129,28 @@ int Enigma::set_plugboard(char const filename[])
 	if (!(plugboard_size % 2))
 	{
 		cout << "Odd number of parameters" << endl;
-		return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
+		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
+		return false;
 	}
 
-	cout << "SUCCESS! File reads: " << endl;
+	cout << "SUCCESS! Plugboard file reads: " << endl;
 	for (int j = 0; j < index; j++)
 	{
 		cout << plugboard[j] << endl;
 	}
 
+	return true;
 }
 
-int Enigma::set_rotor(char const filename[])
+bool Rotor::set_rotor(char const filename[], int& error)
 {
 	ifstream rotor_file;
 	rotor_file.open(filename);
 	if(rotor_file.fail())
 	{
 		cout << "Rotor open failed." << endl;		
+		error = ERROR_OPENING_CONFIGURATION_FILE;
+		return false;
 	}
 
 	//Empty file check
@@ -181,7 +158,8 @@ int Enigma::set_rotor(char const filename[])
 	{
 		cout << "Rotor file empty." << endl;
 		rotor_file.close();	
-		return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+		error = INVALID_ROTOR_MAPPING;
+		return false; 
 	}
 
 	int index;
@@ -194,7 +172,8 @@ int Enigma::set_rotor(char const filename[])
 			cout << "Non numeric character found in rotor file at index " 
 			<< index << endl;//Note: this is wrong (index is one more)
 			rotor_file.close();	
-			return NON_NUMERIC_CHARACTER;
+			error = NON_NUMERIC_CHARACTER;
+			return false;
 		}
 
 
@@ -205,7 +184,8 @@ int Enigma::set_rotor(char const filename[])
 			cout << "Number out of range found in rotor file at index " 
 			<< index << endl;
 			rotor_file.close();	
-			return INVALID_INDEX;
+			error = INVALID_INDEX;
+			return false;
 		}
 		
 		if (index > 0) 
@@ -215,7 +195,8 @@ int Enigma::set_rotor(char const filename[])
 				cout << "Repetition found in rotor file at index " 
 				<< index << endl;
 				rotor_file.close();	
-				return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+				error = INVALID_ROTOR_MAPPING;
+				return false;
 			}
 		}
 	}	
@@ -225,7 +206,8 @@ int Enigma::set_rotor(char const filename[])
 	{
 		cout << "Insufficient number of rotors positions in file." << endl;
 		rotor_file.close();
-		return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+		error = INVALID_ROTOR_MAPPING;
+		return false;
 	}
 	
 	cout << "Success! Please read the rotor numbers below: " << endl;
@@ -246,7 +228,8 @@ int Enigma::set_rotor(char const filename[])
 			cout << "Non numeric character found in rotor file at index " 
 			<< index << endl;
 			rotor_file.close();	
-			return NON_NUMERIC_CHARACTER;
+			error = NON_NUMERIC_CHARACTER;
+			return false;
 		}
 
 		rotor_file >> notches[index];
@@ -256,7 +239,8 @@ int Enigma::set_rotor(char const filename[])
 			cout << "Number out of range found in rotor file at index " 
 			<< index << endl;
 			rotor_file.close();	
-			return INVALID_INDEX;
+			error = INVALID_INDEX;
+			return false;
 		}
 		
 		if (index > 0) 
@@ -266,7 +250,8 @@ int Enigma::set_rotor(char const filename[])
 				cout << "Repetition found in rotor file at index " 
 				<< index << endl;
 				rotor_file.close();	
-				return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+				error = INVALID_ROTOR_MAPPING;
+				return false;
 			}
 		}
 	}	
@@ -275,12 +260,13 @@ int Enigma::set_rotor(char const filename[])
 	{
 		cout << "Too many notches in file." << endl;
 		rotor_file.close();
-		return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+		error = INVALID_ROTOR_MAPPING;
+		return false;
 	}
 
 		rotor_file.close();
 
-	num_notches = index - 1;
+	num_notches = index;
 
 	cout << "Success! Please read the notch numbers below: " << endl;
 	for (int j = 0; j < index; j++)
@@ -288,28 +274,33 @@ int Enigma::set_rotor(char const filename[])
 		cout << notches[j] << endl;
 	}
 
+	return true;
 
 }
 
-int Enigma::set_rotor_pos(char const filename[], int num_of_rotors)
+bool Rotor::fetch_rotor_pos(char const filename[], int num_of_rotors, int& error)
 {
 	ifstream rotor_pos_file;
 	rotor_pos_file.open(filename);
 	if(rotor_pos_file.fail())
 	{
-		cout << "Rotor position file open failed." << endl;		
+		cout << "Rotor position file open failed." << endl;	
+		error = ERROR_OPENING_CONFIGURATION_FILE;
+		return false;	
 	}
 
 	//Empty file check
 	if (eof_test(rotor_pos_file))
 	{
 		cout << "Rotor position file empty." << endl;
-		return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+		rotor_pos_file.close();
+		error = NO_ROTOR_STARTING_POSITION;
+		return false;
 	}
 
 	int index;
 
-	int rotor_pos[num_of_rotors]; 
+	rotor_pos = new int[num_of_rotors];
 
 	for (index = 0 ; index < num_of_rotors && !(eof_test(rotor_pos_file)) ; index++)
 	{
@@ -318,7 +309,9 @@ int Enigma::set_rotor_pos(char const filename[], int num_of_rotors)
 		{
 			cout << "Non numeric character found in rotor_pos file at index " 
 			<< index << endl;	
-			return NON_NUMERIC_CHARACTER;
+			rotor_pos_file.close();
+			error = NON_NUMERIC_CHARACTER;
+			return false;
 		}
 
 
@@ -328,7 +321,9 @@ int Enigma::set_rotor_pos(char const filename[], int num_of_rotors)
 		{
 			cout << "Number out of range found in rotor_pos file at index " 
 			<< index << endl;
-			return INVALID_INDEX;
+			rotor_pos_file.close();
+			error = INVALID_INDEX;
+			return false;
 		}
 	}	
 
@@ -336,15 +331,17 @@ int Enigma::set_rotor_pos(char const filename[], int num_of_rotors)
 	{
 		cout << "Too few values in rotor_pos file." << endl;
 		rotor_pos_file.close();
-		return INVALID_REFLECTOR_MAPPING;
+		error = NO_ROTOR_STARTING_POSITION;
+		return false;
 	}
 
-	//Return error if number of ints in file is over 26
+	//Return error if number of ints in file is over 26, DO I NEED THIS?
 	if (index == num_of_rotors && !(eof_test(rotor_pos_file)))
 	{
 		cout << "Too many ints in file." << endl;
 		rotor_pos_file.close();
-		return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+		error = INVALID_INDEX;
+		return false;
 	}
 
 		rotor_pos_file.close();
@@ -356,22 +353,35 @@ int Enigma::set_rotor_pos(char const filename[], int num_of_rotors)
 		cout << rotor_pos[j] << endl;
 	}
 
+	return true;
+
 }
 
-int Enigma::set_reflector(char const filename[])
+void Rotor::calibrate_pos()
+{
+	
+}
+
+
+bool Reflector::set_reflector(char const filename[], int& error)
 {
 	ifstream reflector_file;
 	reflector_file.open(filename);
 	if(reflector_file.fail())
 	{
 		cout << "Reflector open failed." << endl;		
+		error = ERROR_OPENING_CONFIGURATION_FILE;
+		return false;
 	}
+
 
 	//Empty file check
 	if (eof_test(reflector_file))
 	{
 		cout << "Reflector file empty." << endl;
-		return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+		reflector_file.close();
+		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
+		return false;
 	}
 
 	int index;
@@ -382,8 +392,10 @@ int Enigma::set_reflector(char const filename[])
 		if(!(symbol_test(reflector_file)))
 		{
 			cout << "Non numeric character found in reflector file at index " 
-			<< index << endl;	
-			return NON_NUMERIC_CHARACTER;
+			<< index << endl;
+			reflector_file.close();	
+			error = NON_NUMERIC_CHARACTER;
+			return false;
 		}
 
 
@@ -393,7 +405,9 @@ int Enigma::set_reflector(char const filename[])
 		{
 			cout << "Number out of range found in reflector file at index " 
 			<< index << endl;
-			return INVALID_INDEX;
+			reflector_file.close();
+			error = INVALID_INDEX;
+			return false;
 		}
 		
 		if (index > 0) 
@@ -402,7 +416,9 @@ int Enigma::set_reflector(char const filename[])
 			{
 				cout << "Repetition found in reflector file at index " 
 				<< index << endl;
-				return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+				reflector_file.close();
+				error = INVALID_REFLECTOR_MAPPING;
+				return false;
 			}
 		}
 	}	
@@ -411,7 +427,8 @@ int Enigma::set_reflector(char const filename[])
 	{
 		cout << "Too few values in reflector file." << endl;
 		reflector_file.close();
-		return INVALID_REFLECTOR_MAPPING;
+		error = INVALID_REFLECTOR_MAPPING;
+		return false;
 	}
 
 	//Return error if number of ints in file is over 26
@@ -419,16 +436,41 @@ int Enigma::set_reflector(char const filename[])
 	{
 		cout << "Too many ints in file." << endl;
 		reflector_file.close();
-		return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
+		return false;
 	}
 
 		reflector_file.close();
 
-	cout << "SUCCESS! File reads: " << endl;
+	cout << "SUCCESS! Reflector reads: " << endl;
 	for (int j = 0; j < index; j++)
 	{
 		cout << reflector[j] << endl;
 	}
 
+	return true;
+
 }
 
+void Rotor::rotor_rotate(int rotor[])
+{
+	int temp = rotor[0];
+
+	for (int i = 0; i < 25; i++)
+	{
+		rotor[i] = rotor[i + 1];
+	} 
+
+	rotor[25] = temp;
+
+}
+/*
+void Rotor::ltor_rotor(int rotor[], char i)
+{
+	char o;
+
+	int index = i - 65;
+	o = rotor[index] + 65;
+	return o;
+}
+*/
