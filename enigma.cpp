@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 
-void Plugboard::operate_plugboard(char i, char& o)
+void Plugboard::operate_plugboard(char &i)
 {
 
 	for (int a = 0; a <= plugboard_size; a++)
@@ -16,23 +16,21 @@ void Plugboard::operate_plugboard(char i, char& o)
 			if (a % 2)
 			{
 				
-				o = (plugboard[a - 1] + 65);
+				i = (plugboard[a - 1] + 65);
 				return;
 			}
 
 			if (!(a % 2))
 			{
-				o = (plugboard[a + 1] + 65);
+				i = (plugboard[a + 1] + 65);
 				return;
 			}
 		}
 	}
-	
-	o = i;
 
 } 
 
-void Reflector::operate_reflector(char i, char& o)
+void Reflector::operate_reflector(char &i)
 {
 
 	for (int a = 0; a <= 25; a++)
@@ -42,13 +40,13 @@ void Reflector::operate_reflector(char i, char& o)
 			if (a % 2)
 			{
 				
-				o = (reflector[a - 1] + 65);
+				i = (reflector[a - 1] + 65);
 				return;
 			}
 
 			if (!(a % 2))
 			{
-				o = (reflector[a + 1] + 65);
+				i = (reflector[a + 1] + 65);
 				return;
 			}
 		}
@@ -220,12 +218,6 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 	convert_rotor(rotor_);
 		
-	cout << "Success! Please read the 2d rotor numbers below: " << endl;
-	for (int j = 0; j <= 25; j++)
-	{
-		cout << mapping[j][0] << "   " << mapping[j][1] << endl;
-	}
-
 	//This is where we deal with the notches.
 	//First put them in an array of massive max size.
 	//Then use a dynamic array to store however many there are.
@@ -288,19 +280,9 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 }
 
+
 void Rotor::convert_rotor(int rotor_[])
 {
-	//input one dimensional array of ints
-	//Convert all ints to alphabet characters (0 - 25)
-	//output two dimensional array of char ints where:
-	//	- array[0][0] == A
-	//	- array[1][0] == B
-	// 	- array[2][0] == C
-	//	etc.etc.
-	//	
-	// 	AND
-	//
-	//	- array[0][1] == LETTER A MAPS TO (i.e. A -> D in I.rot)
 
 	//Fill 
 	for (int i = 0; i <= 25; i++)
@@ -309,6 +291,7 @@ void Rotor::convert_rotor(int rotor_[])
 		mapping[i][1] = static_cast<char>(rotor_[i] + 65);
 	}
 
+	create_backwards_mapping();
 	
 }
 
@@ -395,7 +378,12 @@ void Rotor::calibrate_start_pos(int positions[], int rotor_index)
 	while (mapping[0][0] != static_cast<char>(positions[rotor_index] + 65))
 	{
 		rotor_rotate();	
-	}	
+	}
+	
+	while (mapping_backwards[0][1] != static_cast<char>(positions[rotor_index] + 65))
+	{
+		backwards_rotor_rotate();	
+	}		
 }
 
 char Rotor::rtol(char i)
@@ -422,7 +410,7 @@ char Rotor::ltor(char i)
 	return o;
 }
 
-void Rotor::copy_mapping()
+void Rotor::create_backwards_mapping()
 {
 
 	for (int j = 0 ; j <= 25 ; j++)
@@ -431,9 +419,11 @@ void Rotor::copy_mapping()
 		mapping_backwards[j][1] = mapping[j][1];
 	}
 
+	sort_backwards_mapping();
+
 }
 
-void Rotor::selection_sort()
+void Rotor::sort_backwards_mapping()
 {
 	int smallest_index;
 	for(int i = 0; i < 26; i++)
@@ -560,6 +550,27 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 void Rotor::rotor_rotate()
 {
+	forwards_rotor_rotate();
+	backwards_rotor_rotate();
+	
+	for (int i = 0 ; i < num_notches ; i++)
+	{
+		if (static_cast<int>(notches[i]) == mapping[0][0])
+		{
+			notch = true;
+		}
+	}
+}
+
+void notch_turn()
+{
+	//iterate through notches
+	//if notch found at position
+	//turn the next rotor by one
+	
+}
+void Rotor::forwards_rotor_rotate()
+{
 //Convert this into a shuffle up for TWO DIMENSIONAL array.
 	int temp1 = mapping[0][0], temp2 = mapping[0][1];
 
@@ -571,6 +582,20 @@ void Rotor::rotor_rotate()
 
 	mapping[25][0] = temp1;
 	mapping[25][1] = temp2;
+}
+
+void Rotor::backwards_rotor_rotate()
+{
+	int temp1 = mapping_backwards[0][0], temp2 = mapping_backwards[0][1];
+
+	for (int i = 0; i < 25; i++)
+	{
+		mapping_backwards[i][0] = mapping_backwards[i + 1][0];
+		mapping_backwards[i][1] = mapping_backwards[i + 1][1];
+	} 
+
+	mapping_backwards[25][0] = temp1;
+	mapping_backwards[25][1] = temp2;
 
 }
 /*

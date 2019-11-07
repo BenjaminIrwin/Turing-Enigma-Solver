@@ -37,6 +37,8 @@ int main (int argc, char* argv[])
 	{
 		for (int i = 0; i < num_rotors; i++)
 		{
+			cout << "Loading rotor " << i << endl;
+
 			if (!(rotors[i].set_rotor(argv[i+3], error)))
 			{
 				return error;
@@ -55,64 +57,65 @@ int main (int argc, char* argv[])
 	}
 
 //Load starting positions
-
-		rotors[0].copy_mapping();
-	cout << "Please find copied rotor below: " << endl;
-	for (int i = 0 ; i <= 25 ; i++)
-	{
-		cout << rotors[0].mapping_backwards[i][0] << "   " << rotors[0].mapping_backwards[i][1] << endl;
-	}
-
-
-		rotors[0].selection_sort();
 	
-	cout << "Please find sorted rotor below: " << endl;
-	for (int i = 0 ; i <= 25 ; i++)
+	for (int i = 0 ; i < num_rotors ; i++)
 	{
-		cout << rotors[0].mapping_backwards[i][0] << "   " << rotors[0].mapping_backwards[i][1] << endl;
-	}
+		rotors[i].calibrate_start_pos(positions, i);
+	}	
 
-	cout << rotors[0].rtol('F') << endl;
-
-	cout << rotors[0].ltor('G') << endl;//THIS ISN'T WORKING
-
-/*
 //Cipher
-	char i, o;
 
-	input >> i;
+	char letter;
+	
+	cout << "Please enter text here (end with a '.'): " << endl;
 
-	while (i != '.')
+	cin >> ws >> letter;
+
+	while (letter != '.' && !cin.eof())
 	{
-		if (i < 64 || i > 91)
+		if (letter < 64 || letter > 91)
 		{
-			cout << i << "is an invalid input character." << endl;
+			//cout << letter << "is an invalid input character." << endl;
 			error = INVALID_INPUT_CHARACTER;
 			return error;	
 		}
 
-		//Plugboard --> Rotor(s) (if any) --> Reflector --> Rotors --> Plugboard
-		ouput << o;
-
-		input >> i;
-	}
-
-	if (i == '.')
+	rotors[0].rotor_rotate();
+	for (int i = 0 ; i < num_rotors - 1 ; i++)
 	{
-		cout << "Program finished." << endl;
+		if(rotors[i].notch)
+		{
+			//cout << "ALERT: NOTCH FOUND IN ROTOR " << i << endl;
+			rotors[i + 1].rotor_rotate();
+		}
+	}
+
+	plugboard.operate_plugboard(letter);
+//	cout << "After plugboard, letter is " << letter << endl;
+
+	for (int i = 0 ; i < num_rotors ; i++)
+	{
+		letter = rotors[i].rtol(letter);
+		//cout << "Letter after forward rotor " << i << " is " << letter << endl;
+	}
+ 	
+	reflector.operate_reflector(letter);
+//	cout << "Letter after reflector is " << letter << endl;
+
+	for (int i = num_rotors - 1 ; i >= 0 ; i--)
+	{
+		letter = rotors[i].ltor(letter);
+		//cout << "Letter after backward rotor " << i << " is " << letter << endl;
+	}
+
+	plugboard.operate_plugboard(letter);
+
+	cout << letter;
+
+	cin >> ws >> letter;
 	}
 	
-	
-
-	char i = 'Z', o;
-	plugboard.operate_plugboard(i, o);
-	cout << "Input maps to " << o << endl;
-
-	i = 'O';
-	o = 'A';
-	reflector.operate_reflector(i, o);
-	cout << "Input maps to " << o << endl;
-*/
+	cout << endl;
 
 	return error;
 }

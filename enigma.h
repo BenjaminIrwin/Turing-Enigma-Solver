@@ -16,7 +16,7 @@ public:
 
 	bool set_plugboard(char const filename[], int& error);
 
-	void operate_plugboard(char i, char& o);
+	void operate_plugboard(char &i);
 
 };
 
@@ -27,7 +27,7 @@ public:
 
 	bool set_reflector(char const filename[], int& error);
 
-	void operate_reflector(char i, char& o);
+	void operate_reflector(char &i);
 };
 
 class Rotor
@@ -38,10 +38,13 @@ public:
 	char mapping_backwards[26][2];
 	int notches[26];
 	int num_notches;
+	bool notch = false;
 
 	bool set_rotor(char const filename[], int& error);
 
 	void rotor_rotate();
+
+	void forwards_rotor_rotate();
 
 	void convert_rotor(int rotor_[]);
 
@@ -53,10 +56,11 @@ public:
 
 	int next_smallest_index(int start_index);
 
-	void selection_sort();
+	void sort_backwards_mapping();
 
-	void copy_mapping();
+	void create_backwards_mapping();
 
+	void backwards_rotor_rotate();	
 
 //	char ltor_rotor(int rotor[], char i);
 };
