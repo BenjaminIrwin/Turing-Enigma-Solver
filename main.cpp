@@ -44,16 +44,37 @@ int main (int argc, char* argv[])
 		}
 	}
 
-	cout << "Notch 1: " << rotors[0].notches[0] << endl;
-	cout << "Num Notches: " << rotors[0].num_notches << endl;
 
 //Load rotor positions
 
-	if(!(rotors[0].fetch_rotor_pos(argv[argc - 1], num_rotors, error)))
+	int positions[num_rotors];	
+
+	if(!(fetch_rotor_pos(argv[argc - 1], num_rotors, positions, error)))
 	{
 		return error;
 	}
 
+//Load starting positions
+
+		rotors[0].copy_mapping();
+	cout << "Please find copied rotor below: " << endl;
+	for (int i = 0 ; i <= 25 ; i++)
+	{
+		cout << rotors[0].mapping_backwards[i][0] << "   " << rotors[0].mapping_backwards[i][1] << endl;
+	}
+
+
+		rotors[0].selection_sort();
+	
+	cout << "Please find sorted rotor below: " << endl;
+	for (int i = 0 ; i <= 25 ; i++)
+	{
+		cout << rotors[0].mapping_backwards[i][0] << "   " << rotors[0].mapping_backwards[i][1] << endl;
+	}
+
+	cout << rotors[0].rtol('F') << endl;
+
+	cout << rotors[0].ltor('G') << endl;//THIS ISN'T WORKING
 
 /*
 //Cipher

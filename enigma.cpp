@@ -82,8 +82,8 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 
 		if(!(symbol_test(plugboard_file)))
 		{
-			cout << "Non numeric character found in plugboard file at index " 
-			<< index << endl;	
+//			cout << "Non numeric character found in plugboard file at index " 
+//			<< index << endl;	
 			error = NON_NUMERIC_CHARACTER;
 			return false;
 		}
@@ -93,8 +93,8 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 
 		if (!(range_test(plugboard, index)))
 		{
-			cout << "Number out of range found in plugboard file at index " 
-			<< index << endl;
+//			cout << "Number out of range found in plugboard file at index " 
+//			<< index << endl;
 			error = INVALID_INDEX;
 			return false;
 		}
@@ -103,8 +103,8 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 		{
 			if(!(repetition_test(plugboard, index)))
 			{
-				cout << "Repetition found in plugboard file at index " 
-				<< index << endl;
+//				cout << "Repetition found in plugboard file at index " 
+//				<< index << endl;
 				error = IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
 				return false;
 			}
@@ -116,7 +116,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 	//Return error if number of ints in file is over 26
 	if (plugboard_size == 25 && !(eof_test(plugboard_file)))
 	{
-		cout << "Too many ints in file." << endl;
+//		cout << "Too many ints in file." << endl;
 		plugboard_file.close();
 		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 		return false;
@@ -133,11 +133,11 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 		return false;
 	}
 
-	cout << "SUCCESS! Plugboard file reads: " << endl;
-	for (int j = 0; j < index; j++)
-	{
-		cout << plugboard[j] << endl;
-	}
+//	cout << "SUCCESS! Plugboard file reads: " << endl;
+//	for (int j = 0; j < index; j++)
+//	{
+//		cout << plugboard[j] << endl;
+//	}
 
 	return true;
 }
@@ -162,6 +162,8 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		return false; 
 	}
 
+	int rotor_[26];
+
 	int index;
 
 	for (index = 0 ; index <= 25 && !(eof_test(rotor_file)) ; index++)
@@ -177,9 +179,9 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		}
 
 
-		rotor_file >> rotor[index];
+		rotor_file >> rotor_[index];
 
-		if (!(range_test(rotor, index)))
+		if (!(range_test(rotor_, index)))
 		{
 			cout << "Number out of range found in rotor file at index " 
 			<< index << endl;
@@ -190,7 +192,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		
 		if (index > 0) 
 		{
-			if(!(repetition_test(rotor, index)))
+			if(!(repetition_test(rotor_, index)))
 			{
 				cout << "Repetition found in rotor file at index " 
 				<< index << endl;
@@ -210,10 +212,18 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		return false;
 	}
 	
-	cout << "Success! Please read the rotor numbers below: " << endl;
-	for (int j = 0; j < index; j++)
+//	cout << "Success! Please read the rotor numbers below: " << endl;
+//	for (int j = 0; j < index; j++)
+//	{
+//		cout << rotor_[j] << endl;
+//	}
+
+	convert_rotor(rotor_);
+		
+	cout << "Success! Please read the 2d rotor numbers below: " << endl;
+	for (int j = 0; j <= 25; j++)
 	{
-		cout << rotor[j] << endl;
+		cout << mapping[j][0] << "   " << mapping[j][1] << endl;
 	}
 
 	//This is where we deal with the notches.
@@ -268,17 +278,41 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 	num_notches = index;
 
-	cout << "Success! Please read the notch numbers below: " << endl;
-	for (int j = 0; j < index; j++)
-	{
-		cout << notches[j] << endl;
-	}
+//	cout << "Success! Please read the notch numbers below: " << endl;
+//	for (int j = 0; j < index; j++)
+//	{
+//		cout << notches[j] << endl;
+//	}
 
 	return true;
 
 }
 
-bool Rotor::fetch_rotor_pos(char const filename[], int num_of_rotors, int& error)
+void Rotor::convert_rotor(int rotor_[])
+{
+	//input one dimensional array of ints
+	//Convert all ints to alphabet characters (0 - 25)
+	//output two dimensional array of char ints where:
+	//	- array[0][0] == A
+	//	- array[1][0] == B
+	// 	- array[2][0] == C
+	//	etc.etc.
+	//	
+	// 	AND
+	//
+	//	- array[0][1] == LETTER A MAPS TO (i.e. A -> D in I.rot)
+
+	//Fill 
+	for (int i = 0; i <= 25; i++)
+	{
+		mapping[i][0] = static_cast<char>(i + 65);
+		mapping[i][1] = static_cast<char>(rotor_[i] + 65);
+	}
+
+	
+}
+
+bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], int& error)
 {
 	ifstream rotor_pos_file;
 	rotor_pos_file.open(filename);
@@ -300,8 +334,6 @@ bool Rotor::fetch_rotor_pos(char const filename[], int num_of_rotors, int& error
 
 	int index;
 
-	rotor_pos = new int[num_of_rotors];
-
 	for (index = 0 ; index < num_of_rotors && !(eof_test(rotor_pos_file)) ; index++)
 	{
 		
@@ -315,9 +347,9 @@ bool Rotor::fetch_rotor_pos(char const filename[], int num_of_rotors, int& error
 		}
 
 
-		rotor_pos_file >> rotor_pos[index];
+		rotor_pos_file >> positions[index];
 
-		if (!(range_test(rotor_pos, index)))
+		if (!(range_test(positions, index)))
 		{
 			cout << "Number out of range found in rotor_pos file at index " 
 			<< index << endl;
@@ -347,20 +379,94 @@ bool Rotor::fetch_rotor_pos(char const filename[], int num_of_rotors, int& error
 		rotor_pos_file.close();
 
 
-	cout << "SUCCESS! File reads: " << endl;
-	for (int j = 0; j < index; j++)
-	{
-		cout << rotor_pos[j] << endl;
-	}
+//	cout << "SUCCESS! File reads: " << endl;
+//	for (int j = 0; j < index; j++)
+//	{
+//		cout << positions[j] << endl;
+//	}
 
 	return true;
 
 }
 
-void Rotor::calibrate_pos()
-{
-	
+void Rotor::calibrate_start_pos(int positions[], int rotor_index)
+{	
+
+	while (mapping[0][0] != static_cast<char>(positions[rotor_index] + 65))
+	{
+		rotor_rotate();	
+	}	
 }
+
+char Rotor::rtol(char i)
+{
+	char o, j = mapping[static_cast<int>(i - 65)][1];
+	int x;
+
+	for (x = 0 ; x <= 25 && mapping[x][0] != j; x++);
+
+	o = static_cast<char>(x + 65);
+
+	return o;
+}
+
+char Rotor::ltor(char i)
+{
+	char o, j = mapping_backwards[static_cast<int>(i - 65)][0];
+	int x;
+
+	for (x = 0 ; x <= 25 && mapping_backwards[x][1] != j; x++);
+
+	o = static_cast<char>(x + 65);
+
+	return o;
+}
+
+void Rotor::copy_mapping()
+{
+
+	for (int j = 0 ; j <= 25 ; j++)
+	{
+		mapping_backwards[j][0] = mapping[j][0];
+		mapping_backwards[j][1] = mapping[j][1];
+	}
+
+}
+
+void Rotor::selection_sort()
+{
+	int smallest_index;
+	for(int i = 0; i < 26; i++)
+	{
+		smallest_index = next_smallest_index(i);
+		char temp1 = mapping_backwards[i][0];
+		char temp2 = mapping_backwards[i][1];
+		mapping_backwards[i][0] = mapping_backwards[smallest_index][0];
+		mapping_backwards[i][1] = mapping_backwards[smallest_index][1];
+
+		mapping_backwards[smallest_index][0] = temp1;
+		mapping_backwards[smallest_index][1] = temp2;
+	}
+				
+}
+
+
+int Rotor::next_smallest_index(int start_index)
+{
+	char min = mapping_backwards[start_index][1], min_index = start_index;
+	
+	for (int i = start_index + 1; i < 26; i++)
+	{
+		if (mapping_backwards[i][1] < min)
+		{
+			min = mapping_backwards[i][1];
+			min_index = i;
+		}
+	}
+	
+	return min_index;
+}
+
 
 
 bool Reflector::set_reflector(char const filename[], int& error)
@@ -434,7 +540,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 	//Return error if number of ints in file is over 26
 	if (index == 26 && !(eof_test(reflector_file)))
 	{
-		cout << "Too many ints in file." << endl;
+//		cout << "Too many ints in file." << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 		return false;
@@ -442,26 +548,29 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 		reflector_file.close();
 
-	cout << "SUCCESS! Reflector reads: " << endl;
-	for (int j = 0; j < index; j++)
-	{
-		cout << reflector[j] << endl;
-	}
+//	cout << "SUCCESS! Reflector reads: " << endl;
+//	for (int j = 0; j < index; j++)
+//	{
+//		cout << reflector[j] << endl;
+//	}
 
 	return true;
 
 }
 
-void Rotor::rotor_rotate(int rotor[])
+void Rotor::rotor_rotate()
 {
-	int temp = rotor[0];
+//Convert this into a shuffle up for TWO DIMENSIONAL array.
+	int temp1 = mapping[0][0], temp2 = mapping[0][1];
 
 	for (int i = 0; i < 25; i++)
 	{
-		rotor[i] = rotor[i + 1];
+		mapping[i][0] = mapping[i + 1][0];
+		mapping[i][1] = mapping[i + 1][1];
 	} 
 
-	rotor[25] = temp;
+	mapping[25][0] = temp1;
+	mapping[25][1] = temp2;
 
 }
 /*

@@ -6,6 +6,8 @@
 
 using namespace std;
 
+bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], int& error);
+
 class Plugboard 
 {
 public:	
@@ -31,16 +33,30 @@ public:
 class Rotor
 {
 public:
-	int* rotor_pos;
-	int rotor[26];
+	int starting_pos;
+	char mapping[26][2];
+	char mapping_backwards[26][2];
 	int notches[26];
 	int num_notches;
 
 	bool set_rotor(char const filename[], int& error);
 
-	bool fetch_rotor_pos(char const filename[], int num_of_rotors, int& error);
+	void rotor_rotate();
 
-	void rotor_rotate(int rotor[]);
+	void convert_rotor(int rotor_[]);
+
+	void calibrate_start_pos(int positions[], int rotor_index);
+
+	char rtol(char i);
+
+	char ltor(char i);
+
+	int next_smallest_index(int start_index);
+
+	void selection_sort();
+
+	void copy_mapping();
+
 
 //	char ltor_rotor(int rotor[], char i);
 };
