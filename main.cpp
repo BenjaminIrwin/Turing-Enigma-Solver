@@ -20,26 +20,30 @@ int main (int argc, char* argv[])
 //Load plugboard
 
 	Plugboard plugboard;
-	plugboard.set_plugboard(argv[1], error);
+	if (!(plugboard.set_plugboard(argv[1], error)))
+	{
+		return error;
+	}
 
 //Load reflector
 
 	Reflector reflector;
-	reflector.set_reflector(argv[2], error);
+	if (!(reflector.set_reflector(argv[2], error)))
+	{
+		return error;
+	}
 
 //Load rotors
 
 	int num_rotors = argc - 4;
-
 	Rotor* rotors = new Rotor[num_rotors];	
-
 	if (num_rotors > 0)
 	{
 		for (int i = 0; i < num_rotors; i++)
 		{
 			cout << "Loading rotor " << i << endl;
 
-			if (!(rotors[i].set_rotor(argv[i+3], error)))
+			if (!(rotors[i].set_rotor(argv[i + 3], error)))
 			{
 				return error;
 			}
@@ -75,7 +79,7 @@ int main (int argc, char* argv[])
 	{
 		if (letter < 64 || letter > 91)
 		{
-			//cout << letter << "is an invalid input character." << endl;
+			cout << letter << "is an invalid input character." << endl;
 			error = INVALID_INPUT_CHARACTER;
 			return error;	
 		}

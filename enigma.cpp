@@ -80,8 +80,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 
 		if(!(symbol_test(plugboard_file)))
 		{
-//			cout << "Non numeric character found in plugboard file at index " 
-//			<< index << endl;	
+			cout << "Non numeric character found in plugboard file." << endl;
 			error = NON_NUMERIC_CHARACTER;
 			return false;
 		}
@@ -91,8 +90,8 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 
 		if (!(range_test(plugboard, index)))
 		{
-//			cout << "Number out of range found in plugboard file at index " 
-//			<< index << endl;
+			cout << "Number out of range found in plugboard file at index " 
+			<< index << endl;
 			error = INVALID_INDEX;
 			return false;
 		}
@@ -101,8 +100,8 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 		{
 			if(!(repetition_test(plugboard, index)))
 			{
-//				cout << "Repetition found in plugboard file at index " 
-//				<< index << endl;
+				cout << "Repetition found in plugboard file at index " 
+				<< index << endl;
 				error = IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
 				return false;
 			}
@@ -114,7 +113,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 	//Return error if number of ints in file is over 26
 	if (plugboard_size == 25 && !(eof_test(plugboard_file)))
 	{
-//		cout << "Too many ints in file." << endl;
+		cout << "Too many parameters in plugboard file." << endl;
 		plugboard_file.close();
 		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 		return false;
@@ -126,16 +125,16 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 	//End is signalled.
 	if (!(plugboard_size % 2))
 	{
-		cout << "Odd number of parameters" << endl;
+		cout << "Odd number of parameters in plugboard file." << endl;
 		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 		return false;
 	}
 
-//	cout << "SUCCESS! Plugboard file reads: " << endl;
-//	for (int j = 0; j < index; j++)
-//	{
-//		cout << plugboard[j] << endl;
-//	}
+	cout << "SUCCESS! Plugboard file reads: " << endl;
+	for (int j = 0; j < index; j++)
+	{
+		cout << plugboard[j] << endl;
+	}
 
 	return true;
 }
@@ -146,7 +145,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 	rotor_file.open(filename);
 	if(rotor_file.fail())
 	{
-		cout << "Rotor open failed." << endl;		
+		cout << "Rotor file open failed." << endl;		
 		error = ERROR_OPENING_CONFIGURATION_FILE;
 		return false;
 	}
@@ -169,8 +168,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 		if(!(symbol_test(rotor_file)))
 		{
-			cout << "Non numeric character found in rotor file at index " 
-			<< index << endl;//Note: this is wrong (index is one more)
+			cout << "Non numeric character found in rotor file." << endl;
 			rotor_file.close();	
 			error = NON_NUMERIC_CHARACTER;
 			return false;
@@ -181,8 +179,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 		if (!(range_test(rotor_, index)))
 		{
-			cout << "Number out of range found in rotor file at index " 
-			<< index << endl;
+			cout << "Number out of range found in rotor file." << endl;
 			rotor_file.close();	
 			error = INVALID_INDEX;
 			return false;
@@ -192,8 +189,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		{
 			if(!(repetition_test(rotor_, index)))
 			{
-				cout << "Repetition found in rotor file at index " 
-				<< index << endl;
+				cout << "Repetition found in rotor file." << endl; 
 				rotor_file.close();	
 				error = INVALID_ROTOR_MAPPING;
 				return false;
@@ -204,7 +200,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 	//Return error if number of ints in file is under 26
 	if (index < 26 && eof_test(rotor_file))
 	{
-		cout << "Insufficient number of rotors positions in file." << endl;
+		cout << "Insufficient number of mappings in rotor file." << endl;
 		rotor_file.close();
 		error = INVALID_ROTOR_MAPPING;
 		return false;
@@ -227,8 +223,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 		if(!(symbol_test(rotor_file)))
 		{
-			cout << "Non numeric character found in rotor file at index " 
-			<< index << endl;
+			cout << "Non numeric character found in rotor file." << endl;
 			rotor_file.close();	
 			error = NON_NUMERIC_CHARACTER;
 			return false;
@@ -238,8 +233,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 		if (!(range_test(notches, index)))
 		{
-			cout << "Number out of range found in rotor file at index " 
-			<< index << endl;
+			cout << "Number out of range found in rotor file." << endl; 
 			rotor_file.close();	
 			error = INVALID_INDEX;
 			return false;
@@ -249,8 +243,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		{
 			if(!(repetition_test(notches, index)))
 			{
-				cout << "Repetition found in rotor file at index " 
-				<< index << endl;
+				cout << "Repetition found in rotor file." << endl;  
 				rotor_file.close();	
 				error = INVALID_ROTOR_MAPPING;
 				return false;
@@ -260,7 +253,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 	if (index > 26)
 	{
-		cout << "Too many notches in file." << endl;
+		cout << "Too many notch parameters in rotor file." << endl;
 		rotor_file.close();
 		error = INVALID_ROTOR_MAPPING;
 		return false;
@@ -322,8 +315,7 @@ bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], 
 		
 		if(!(symbol_test(rotor_pos_file)))
 		{
-			cout << "Non numeric character found in rotor_pos file at index " 
-			<< index << endl;	
+			cout << "Non numeric character found in rotor position file." << endl; 
 			rotor_pos_file.close();
 			error = NON_NUMERIC_CHARACTER;
 			return false;
@@ -334,8 +326,7 @@ bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], 
 
 		if (!(range_test(positions, index)))
 		{
-			cout << "Number out of range found in rotor_pos file at index " 
-			<< index << endl;
+			cout << "Number out of range found in rotor position file." << endl;
 			rotor_pos_file.close();
 			error = INVALID_INDEX;
 			return false;
@@ -344,7 +335,7 @@ bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], 
 
 	if (index < num_of_rotors)
 	{
-		cout << "Too few values in rotor_pos file." << endl;
+		cout << "Insufficient number of parameters in rotor position file." << endl;
 		rotor_pos_file.close();
 		error = NO_ROTOR_STARTING_POSITION;
 		return false;
@@ -465,7 +456,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 	reflector_file.open(filename);
 	if(reflector_file.fail())
 	{
-		cout << "Reflector open failed." << endl;		
+		cout << "Reflector file open failed." << endl;		
 		error = ERROR_OPENING_CONFIGURATION_FILE;
 		return false;
 	}
@@ -487,8 +478,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 		if(!(symbol_test(reflector_file)))
 		{
-			cout << "Non numeric character found in reflector file at index " 
-			<< index << endl;
+			cout << "Non numeric character found in reflector file." << endl;
 			reflector_file.close();	
 			error = NON_NUMERIC_CHARACTER;
 			return false;
@@ -499,8 +489,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 		if (!(range_test(reflector, index)))
 		{
-			cout << "Number out of range found in reflector file at index " 
-			<< index << endl;
+			cout << "Number out of range found in reflector file." << endl;
 			reflector_file.close();
 			error = INVALID_INDEX;
 			return false;
@@ -510,8 +499,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 		{
 			if(!(repetition_test(reflector, index)))
 			{
-				cout << "Repetition found in reflector file at index " 
-				<< index << endl;
+				cout << "Repetition found in reflector file." << endl;
 				reflector_file.close();
 				error = INVALID_REFLECTOR_MAPPING;
 				return false;
@@ -521,7 +509,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 	if (index < 26)
 	{
-		cout << "Too few values in reflector file." << endl;
+		cout << "Insufficient number of parameters in reflector file." << endl;
 		reflector_file.close();
 		error = INVALID_REFLECTOR_MAPPING;
 		return false;
@@ -530,7 +518,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 	//Return error if number of ints in file is over 26
 	if (index == 26 && !(eof_test(reflector_file)))
 	{
-//		cout << "Too many ints in file." << endl;
+		cout << "Too many ints in file." << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 		return false;

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "helper.h"
 
 using namespace std;
@@ -41,7 +42,18 @@ bool symbol_test(ifstream& input_file)
 //Use .get to look three chars ahead
 //If symbol then return error code
 //Else return three slots back.
+	int position = input_file.tellg();
+	string next;
+	input_file >> next;
 
+	for (int i = 0; i < int(next.length()) && !input_file.eof(); i++)
+	{
+		if(!isdigit(next[i]) && !(i == 0 && next[0] == '-'))
+		{
+			return false;
+		}
+	}	
+/*
 	for (int i = 1; i <= 3; i++)
 	{
 		char h;
@@ -58,8 +70,8 @@ bool symbol_test(ifstream& input_file)
 		} 
 		
 	}
-	
-	input_file.seekg(-3, ios_base::cur); 
+*/	
+	input_file.seekg(position, ios_base::beg); 
 	return true;
 }
 
