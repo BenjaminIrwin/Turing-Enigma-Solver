@@ -36,7 +36,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 	reflector_file.open(filename);
 	if(reflector_file.fail())
 	{
-		cerr << "Reflector file open failed." << endl;		
+		cout << "Reflector file open failed." << endl;		
 		error = ERROR_OPENING_CONFIGURATION_FILE;
 		return false;
 	}
@@ -45,7 +45,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 	//Empty file check
 	if (eof_test(reflector_file))
 	{
-		cerr << "Reflector file empty." << endl;
+		cout << "Reflector file empty." << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 		return false;
@@ -58,7 +58,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 		if(!(symbol_test(reflector_file)))
 		{
-			cerr << "Non numeric character found in reflector file." << endl;
+			cout << "Non numeric character found in reflector file." << endl;
 			reflector_file.close();	
 			error = NON_NUMERIC_CHARACTER;
 			return false;
@@ -69,7 +69,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 		if (!(range_test(reflector, index)))
 		{
-			cerr << "Number out of range found in reflector file." << endl;
+			cout << "Number out of range found in reflector file." << endl;
 			reflector_file.close();
 			error = INVALID_INDEX;
 			return false;
@@ -79,7 +79,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 		{
 			if(!(repetition_test(reflector, index)))
 			{
-				cerr << "Repetition found in reflector file." << endl;
+				cout << "Repetition found in reflector file." << endl;
 				reflector_file.close();
 				error = INVALID_REFLECTOR_MAPPING;
 				return false;
@@ -89,7 +89,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 	if (index < 26)
 	{
-		cerr << "Insufficient number of parameters in reflector file." << endl;
+		cout << "Insufficient number of parameters in reflector file." << endl;
 		reflector_file.close();
 		error = INVALID_REFLECTOR_MAPPING;
 		return false;
@@ -98,7 +98,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 	//Return error if number of ints in file is over 26
 	if (index == 26 && !(eof_test(reflector_file)))
 	{
-		cerr << "REFLECTOR: Too many ints in file." << endl;
+		cout << "REFLECTOR: Too many ints in file." << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 		return false;
