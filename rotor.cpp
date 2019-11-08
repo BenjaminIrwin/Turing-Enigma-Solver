@@ -76,7 +76,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 	cout << "Rotor: " << endl;
 	for (int j = 0; j < index; j++)
 	{
-		cout << rotor_[j] << "  ";
+		cout << rotor_[j] << " ";
 	}
 	
 	cout << endl;

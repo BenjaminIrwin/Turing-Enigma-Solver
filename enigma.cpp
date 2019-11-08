@@ -29,7 +29,7 @@ int main (int argc, char* argv[])
 	cout << "Plugboard: " << flush;
 	for (int i = 0 ; i < plugboard.plugboard_size ; i++)
 	{
-		cout << plugboard.plugboard[i] << "  ";
+		cout << plugboard.plugboard[i] << " ";
 	}
 
 	cout << endl;
@@ -45,7 +45,7 @@ int main (int argc, char* argv[])
 	cout << "Reflector: " << flush;
 	for (int i = 0 ; i < 26 ; i++)
 	{
-		cout << reflector.reflector[i] << "  ";
+		cout << reflector.reflector[i] << " ";
 	}
 
 	cout << endl;
