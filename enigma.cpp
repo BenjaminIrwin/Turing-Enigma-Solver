@@ -16,6 +16,7 @@ int main (int argc, char* argv[])
 	if (argc < 4)
 	{
 		error = INSUFFICIENT_NUMBER_OF_PARAMETERS;
+		cerr << "usage: enigma plugboard-file reflector-file (<rotor-file>)* rotor-positions";
 		return error;
 	}
 

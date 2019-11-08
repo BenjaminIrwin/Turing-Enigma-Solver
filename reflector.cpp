@@ -58,7 +58,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 		if(!(symbol_test(reflector_file)))
 		{
-			cerr << "Non numeric character found in reflector file." << endl;
+			cerr << "Non-numeric character found in reflector file " << filename << endl;
 			reflector_file.close();	
 			error = NON_NUMERIC_CHARACTER;
 			return false;
@@ -69,7 +69,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 		if (!(range_test(reflector, index)))
 		{
-			cerr << "Number out of range found in reflector file." << endl;
+			cerr << "Number out of range in reflector file " << filename << endl;
 			reflector_file.close();
 			error = INVALID_INDEX;
 			return false;
@@ -79,7 +79,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 		{
 			if(!(repetition_test(reflector, index)))
 			{
-				cerr << "Repetition found in reflector file." << endl;
+				cerr << "Repetition found in reflector file " << filename << endl;
 				reflector_file.close();
 				error = INVALID_REFLECTOR_MAPPING;
 				return false;
@@ -89,7 +89,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 	if (index < 26)
 	{
-		cerr << "Insufficient number of parameters in reflector file." << endl;
+		cerr << "Insufficient number of parameters in reflector file " << filename << endl;
 		reflector_file.close();
 		error = INVALID_REFLECTOR_MAPPING;
 		return false;
