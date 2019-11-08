@@ -73,7 +73,7 @@ int main (int argc, char* argv[])
 
 	char letter;
 
-	cout << endl;
+	cout << flush;
 
 	while (cin >> ws >> letter)
 	{
