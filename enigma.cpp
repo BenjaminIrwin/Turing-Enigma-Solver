@@ -49,8 +49,6 @@ int main (int argc, char* argv[])
 		for (int i = 0; i < num_rotors; i++)
 		{
 
-			cout << "Loading rotor " << argv[i + 3] << endl;
-
 			if (!(rotors[i].set_rotor(argv[i + 3], error)))
 			{
 				return error;
