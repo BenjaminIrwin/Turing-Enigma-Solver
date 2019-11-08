@@ -1,34 +1,10 @@
-#ifndef ENIGMA_H
-#define ENIGMA_H
+#ifndef ROTOR_H
+#define ROTOR_H
 
 #include <iostream>
 #include <fstream>
 
 using namespace std;
-
-bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], int& error);
-
-class Plugboard 
-{
-public:	
-	int plugboard[26];
-	int plugboard_size;
-
-	bool set_plugboard(char const filename[], int& error);
-
-	void operate_plugboard(char &i);
-
-};
-
-class Reflector
-{
-public:
-	int reflector[26];
-
-	bool set_reflector(char const filename[], int& error);
-
-	void operate_reflector(char &i);
-};
 
 class Rotor
 {
@@ -62,7 +38,6 @@ public:
 
 	void backwards_rotor_rotate();	
 
-//	char ltor_rotor(int rotor[], char i);
 };
 
 #endif

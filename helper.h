@@ -5,6 +5,8 @@
 #include <iostream>
 
 using namespace std;
+		
+	bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], int& error);
 
 	bool repetition_test(int num_array[], int array_pos);
 	

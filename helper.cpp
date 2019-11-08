@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include "helper.h"
+#include "errors.h"
 
 using namespace std;
 
@@ -9,14 +10,14 @@ bool repetition_test (int num_array[], int array_pos)
 {
 //Checks all ints behind current one in array
 //to see if previously appeared.
-	
+
 	for (int i = array_pos - 1; i >= 0; i--)
 	{
 		if(num_array[i] == num_array[array_pos])
 		{
 			return false;
 		}
-	}	
+	}
 
 	return true;
 
@@ -52,7 +53,7 @@ bool symbol_test(ifstream& input_file)
 		{
 			return false;
 		}
-	}	
+	}
 /*
 	for (int i = 1; i <= 3; i++)
 	{
@@ -62,16 +63,16 @@ bool symbol_test(ifstream& input_file)
 		{
 			input_file.seekg(-i, ios_base::cur);
 			return true;
-		} 
+		}
 
 		if (h != ' ' && h != '-' && (h < 48 || h > 57))
 		{
 			return false;
-		} 
-		
+		}
+
 	}
-*/	
-	input_file.seekg(position, ios_base::beg); 
+*/
+	input_file.seekg(position, ios_base::beg);
 	return true;
 }
 
@@ -81,14 +82,87 @@ bool eof_test(ifstream& input_file)
 	char c;
 	int offset = input_file.tellg();
 	input_file >> c;
-	
+
 	if(c == '\n' || input_file.eof())
 	{
 		return true;
-	} 
+	}
 
 	input_file.seekg(offset, ios_base::beg);
 	return false;
 }
 
+bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], int& error)
+{
+	ifstream rotor_pos_file;
+	rotor_pos_file.open(filename);
+	if(rotor_pos_file.fail())
+	{
+		cout << "Rotor position file open failed." << endl;
+		error = ERROR_OPENING_CONFIGURATION_FILE;
+		return false;
+	}
 
+	//Empty file check
+	if (eof_test(rotor_pos_file))
+	{
+		cout << "Rotor position file empty." << endl;
+		rotor_pos_file.close();
+		error = NO_ROTOR_STARTING_POSITION;
+		return false;
+	}
+
+	int index;
+
+	for (index = 0 ; index < num_of_rotors && !(eof_test(rotor_pos_file)) ; index++)
+	{
+
+		if(!(symbol_test(rotor_pos_file)))
+		{
+			cout << "Non numeric character found in rotor position file." << endl;
+			rotor_pos_file.close();
+			error = NON_NUMERIC_CHARACTER;
+			return false;
+		}
+
+
+		rotor_pos_file >> positions[index];
+
+		if (!(range_test(positions, index)))
+		{
+			cout << "Number out of range found in rotor position file." << endl;
+			rotor_pos_file.close();
+			error = INVALID_INDEX;
+			return false;
+		}
+	}
+
+	if (index < num_of_rotors)
+	{
+		cout << "Insufficient number of parameters in rotor position file." << endl;
+		rotor_pos_file.close();
+		error = NO_ROTOR_STARTING_POSITION;
+		return false;
+	}
+
+	//Return error if number of ints in file is over 26, DO I NEED THIS?
+	if (index == num_of_rotors && !(eof_test(rotor_pos_file)))
+	{
+		cout << "Too many ints in file." << endl;
+		rotor_pos_file.close();
+		error = INVALID_INDEX;
+		return false;
+	}
+
+		rotor_pos_file.close();
+
+
+//	cout << "SUCCESS! File reads: " << endl;
+//	for (int j = 0; j < index; j++)
+//	{
+//		cout << positions[j] << endl;
+//	}
+
+	return true;
+
+}

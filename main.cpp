@@ -1,10 +1,12 @@
 #include <iostream>
-#include "enigma.h"
+#include "plugboard.h"
+#include "rotor.h"
+#include "reflector.h"
 #include "errors.h"
 #include "helper.h"
 using namespace std;
 
-int main (int argc, char* argv[]) 
+int main (int argc, char* argv[])
 {
 
 //Read input
@@ -36,7 +38,7 @@ int main (int argc, char* argv[])
 //Load rotors
 
 	int num_rotors = argc - 4;
-	Rotor* rotors = new Rotor[num_rotors];	
+	Rotor* rotors = new Rotor[num_rotors];
 	if (num_rotors > 0)
 	{
 		for (int i = 0; i < num_rotors; i++)
@@ -53,7 +55,7 @@ int main (int argc, char* argv[])
 
 //Load rotor positions
 
-	int positions[num_rotors];	
+	int positions[num_rotors];
 
 	if(!(fetch_rotor_pos(argv[argc - 1], num_rotors, positions, error)))
 	{
@@ -61,16 +63,16 @@ int main (int argc, char* argv[])
 	}
 
 //Load starting positions
-	
+
 	for (int i = 0 ; i < num_rotors ; i++)
 	{
 		rotors[i].calibrate_start_pos(positions, i);
-	}	
+	}
 
 //Cipher
 
 	char letter;
-	
+
 	cout << "Please enter text here (end with a '.'): " << endl;
 
 	cin >> ws >> letter;
@@ -81,7 +83,7 @@ int main (int argc, char* argv[])
 		{
 			cout << letter << "is an invalid input character." << endl;
 			error = INVALID_INPUT_CHARACTER;
-			return error;	
+			return error;
 		}
 
 	rotors[0].rotor_rotate();
@@ -102,7 +104,7 @@ int main (int argc, char* argv[])
 		letter = rotors[i].rtol(letter);
 		//cout << "Letter after forward rotor " << i << " is " << letter << endl;
 	}
- 	
+
 	reflector.operate_reflector(letter);
 //	cout << "Letter after reflector is " << letter << endl;
 
@@ -118,7 +120,7 @@ int main (int argc, char* argv[])
 
 	cin >> ws >> letter;
 	}
-	
+
 	cout << endl;
 
 	return error;
