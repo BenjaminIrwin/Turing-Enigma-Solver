@@ -26,14 +26,6 @@ int main (int argc, char* argv[])
 	{
 		return error;
 	}
-//	cout << "Plugboard: " << flush;
-//	for (int i = 0 ; i < plugboard.plugboard_size ; i++)
-//	{
-//		cout << plugboard.plugboard[i] << " ";
-//	}
-
-	cout << endl;
-
 
 //Load reflector
 
@@ -42,13 +34,6 @@ int main (int argc, char* argv[])
 	{
 		return error;
 	}
-//	cout << "Reflector: " << flush;
-//	for (int i = 0 ; i < 26 ; i++)
-//	{
-//		cout << reflector.reflector[i] << " ";
-//	}
-
-//	cout << endl;
 
 //Load rotors
 
@@ -76,13 +61,6 @@ int main (int argc, char* argv[])
 	{
 		return error;
 	}
-//	cout << "Reflector positions: " << endl;
-//	for (int i = 0 ; i < num_rotors ; i++)
-//	{
-//		cout << positions[i] << " ";
-//	}
-//	
-//	cout << endl;
 
 //Load starting positions
 
@@ -95,7 +73,7 @@ int main (int argc, char* argv[])
 
 	char letter;
 
-//	cout << "Please enter text here (end with a '.'): " << endl;
+	cout << "Please enter text here (end with a '.'): " << endl;
 
 	cin >> ws >> letter;
 
@@ -135,7 +113,7 @@ int main (int argc, char* argv[])
 		letter = rotors[i].ltor(letter);
 		//cout << "Letter after backward rotor " << i << " is " << letter << endl;
 	}
- 
+
 	plugboard.operate_plugboard(letter);
 
 	cout << letter;
