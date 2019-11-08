@@ -73,13 +73,13 @@ int main (int argc, char* argv[])
 
 	char letter;
 
-	cout << flush;
+	cout << endl;//Why do I need this?
 
 	while (cin >> ws >> letter)
 	{
 		if (letter < 64 || letter > 91)
 		{
-		//	cout << letter << "is an invalid input character." << endl;
+			cerr << letter << "is an invalid input character." << endl;
 			error = INVALID_INPUT_CHARACTER;
 			return error;
 		}
@@ -99,7 +99,7 @@ int main (int argc, char* argv[])
 
 	for (int i = 0 ; i < num_rotors ; i++)
 	{
-		letter = rotors[i].rtol(letter);
+		letter = rotors[i].ltor(letter);
 		//cout << "Letter after forward rotor " << i << " is " << letter << endl;
 	}
 
@@ -108,7 +108,7 @@ int main (int argc, char* argv[])
 
 	for (int i = num_rotors - 1 ; i >= 0 ; i--)
 	{
-		letter = rotors[i].ltor(letter);
+		letter = rotors[i].rtol(letter);
 		//cout << "Letter after backward rotor " << i << " is " << letter << endl;
 	}
 
