@@ -78,6 +78,8 @@ bool Rotor::set_rotor(char const filename[], int& error)
 	{
 		cout << rotor_[j] << "  ";
 	}
+	
+	cout << endl;
 
 	convert_rotor(rotor_);
 

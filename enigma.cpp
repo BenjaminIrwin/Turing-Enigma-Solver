@@ -32,6 +32,8 @@ int main (int argc, char* argv[])
 		cout << plugboard.plugboard[i] << "  ";
 	}
 
+	cout << endl;
+
 
 //Load reflector
 
@@ -45,6 +47,8 @@ int main (int argc, char* argv[])
 	{
 		cout << reflector.reflector[i] << "  ";
 	}
+
+	cout << endl;
 
 //Load rotors
 
