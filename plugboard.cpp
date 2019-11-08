@@ -41,14 +41,6 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 		return false;
 	}
 
-	//Empty file check
-	if (eof_test(plugboard_file))
-	{
-		cout << "Plugboard file empty." << endl;
-		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
-		return false;
-	}
-
 	int index;
 
 	for (index = 0 ; index <= 25 && !(eof_test(plugboard_file)) ; index++)

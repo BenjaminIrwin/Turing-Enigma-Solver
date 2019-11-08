@@ -98,7 +98,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 	//Return error if number of ints in file is over 26
 	if (index == 26 && !(eof_test(reflector_file)))
 	{
-		cout << "Too many ints in file." << endl;
+		cout << "REFLECTOR: Too many ints in file." << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 		return false;
