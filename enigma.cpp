@@ -73,8 +73,6 @@ int main (int argc, char* argv[])
 
 	char letter;
 
-	cout << "Please enter text here (end with a '.'): " << endl;
-
 	cin >> ws >> letter;
 
 	while (letter != '.' && !cin.eof())
@@ -120,8 +118,6 @@ int main (int argc, char* argv[])
 
 	cin >> ws >> letter;
 	}
-
-	cout << endl;
 
 	return error;
 }
