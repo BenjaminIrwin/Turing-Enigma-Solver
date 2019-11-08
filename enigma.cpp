@@ -26,6 +26,7 @@ int main (int argc, char* argv[])
 	{
 		return error;
 	}
+	cout << "Plugboard: " << flush;
 	for (int i = 0 ; i < plugboard.plugboard_size ; i++)
 	{
 		cout << plugboard.plugboard[i] << "  ";
@@ -39,6 +40,7 @@ int main (int argc, char* argv[])
 	{
 		return error;
 	}
+	cout << "Reflector: " << flush;
 	for (int i = 0 ; i < 26 ; i++)
 	{
 		cout << reflector.reflector[i] << "  ";

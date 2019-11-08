@@ -73,11 +73,11 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		return false;
 	}
 
-//	cout << "Success! Please read the rotor numbers below: " << endl;
-//	for (int j = 0; j < index; j++)
-//	{
-//		cout << rotor_[j] << endl;
-//	}
+	cout << "Rotor: " << endl;
+	for (int j = 0; j < index; j++)
+	{
+		cout << rotor_[j] << "  ";
+	}
 
 	convert_rotor(rotor_);
 
