@@ -73,9 +73,7 @@ int main (int argc, char* argv[])
 
 	char letter;
 
-	cin >> ws >> letter;
-
-	while (letter != '.' && !cin.eof())
+	while (cin >> ws >> letter)
 	{
 		if (letter < 64 || letter > 91)
 		{
@@ -116,7 +114,6 @@ int main (int argc, char* argv[])
 
 	cout << letter;
 
-	cin >> ws >> letter;
 	}
 
 	return error;
