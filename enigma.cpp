@@ -26,6 +26,11 @@ int main (int argc, char* argv[])
 	{
 		return error;
 	}
+	for (int i = 0 ; i < plugboard.plugboard_size ; i++)
+	{
+		cout << plugboard.plugboard[i] << "  ";
+	}
+
 
 //Load reflector
 
@@ -33,6 +38,10 @@ int main (int argc, char* argv[])
 	if (!(reflector.set_reflector(argv[2], error)))
 	{
 		return error;
+	}
+	for (int i = 0 ; i < 26 ; i++)
+	{
+		cout << reflector.reflector[i] << "  ";
 	}
 
 //Load rotors
