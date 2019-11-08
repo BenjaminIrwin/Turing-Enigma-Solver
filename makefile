@@ -1,8 +1,8 @@
-main: main.o helper.o plugboard.o rotor.o reflector.o
-	g++ main.o helper.o plugboard.o rotor.o reflector.o -o main
+enigma: enigma.o helper.o plugboard.o rotor.o reflector.o
+	g++ enigma.o helper.o plugboard.o rotor.o reflector.o -o enigma 
 
-main.o: main.cpp helper.h errors.h plugboard.h reflector.h rotor.h
-	g++ -Wall -g -c main.cpp
+enigma.o: enigma.cpp helper.h errors.h plugboard.h reflector.h rotor.h
+	g++ -Wall -g -c enigma.cpp
 
 helper.o: helper.cpp helper.h errors.h
 	g++ -Wall -g -c helper.cpp
@@ -17,4 +17,4 @@ rotor.o: rotor.cpp rotor.h helper.h errors.h
 	g++ -Wall -g -c rotor.cpp
 
 clean:
-	rm -f *.o main
+	rm -f *.o enigma
