@@ -147,8 +147,9 @@ void Rotor::rotor_rotate()
 
 	for (int i = 0 ; i < num_notches ; i++)
 	{
-		if (static_cast<int>(notches[i]) == mapping[0][0])
-		{
+		if (static_cast<char>(notches[i] + 65) == mapping[0][0])
+		{	
+			//cout << "!" << endl;
 			notch = true;
 		}
 	}
@@ -192,10 +193,14 @@ void Rotor::convert_rotor(int rotor_[])
 	for (int i = 0; i <= 25; i++)
 	{
 		mapping[i][0] = static_cast<char>(i + 65);
+		//cout << mapping[i][0] << "  ";
 		mapping[i][1] = static_cast<char>(rotor_[i] + 65);
+		//cout << mapping[i][1] << "  " << endl;
 	}
 
 	create_backwards_mapping();
+
+	
 
 }
 
@@ -215,25 +220,28 @@ void Rotor::calibrate_start_pos(int positions[], int rotor_index)
 
 char Rotor::rtol(char i)
 {
-	char o, j = mapping[static_cast<int>(i - 65)][1];
+	char o, j = mapping[(static_cast<int>(i) - 65)][1];
 	int x;
 
 	for (x = 0 ; x <= 25 && mapping[x][0] != j; x++);
 
 	o = static_cast<char>(x + 65);
 
+	//cout << "Letter maps to " << j << " OR " << o << endl;
 	return o;
 }
 
 char Rotor::ltor(char i)
 {
-	char o, j = mapping_backwards[static_cast<int>(i - 65)][0];
+
+	char o, j = mapping_backwards[(static_cast<int>(i) - 65)][0];
 	int x;
 
 	for (x = 0 ; x <= 25 && mapping_backwards[x][1] != j; x++);
 
 	o = static_cast<char>(x + 65);
 
+	//cout << "Letter maps to " << j << " OR " << o << endl;
 	return o;
 }
 
