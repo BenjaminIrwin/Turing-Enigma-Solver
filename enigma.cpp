@@ -73,6 +73,8 @@ int main (int argc, char* argv[])
 
 	char letter;
 
+	cout << endl;
+
 	while (cin >> ws >> letter)
 	{
 		if (letter < 64 || letter > 91)
