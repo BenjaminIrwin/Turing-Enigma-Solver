@@ -58,7 +58,7 @@ int main (int argc, char* argv[])
 	{
 		for (int i = 0; i < num_rotors; i++)
 		{
-			cout << "Loading rotor " << i << endl;
+		//	cout << "Loading rotor " << i << endl;
 
 			if (!(rotors[i].set_rotor(argv[i + 3], error)))
 			{
@@ -103,7 +103,7 @@ int main (int argc, char* argv[])
 	{
 		if (letter < 64 || letter > 91)
 		{
-			cout << letter << "is an invalid input character." << endl;
+		//	cout << letter << "is an invalid input character." << endl;
 			error = INVALID_INPUT_CHARACTER;
 			return error;
 		}

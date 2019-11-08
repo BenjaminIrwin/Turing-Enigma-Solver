@@ -36,7 +36,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 	plugboard_file.open(filename);
 	if(plugboard_file.fail())
 	{
-		cout << "Plugboard open failed." << endl;
+		cerr << "Plugboard file " << filename << "open failed." << endl;
 		error = ERROR_OPENING_CONFIGURATION_FILE;
 		return false;
 	}
@@ -48,7 +48,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 
 		if(!(symbol_test(plugboard_file)))
 		{
-			cout << "Non numeric character found in plugboard file." << endl;
+			cerr << "Non-numeric character in plugboard file " << filename << endl;
 			error = NON_NUMERIC_CHARACTER;
 			return false;
 		}
@@ -58,8 +58,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 
 		if (!(range_test(plugboard, index)))
 		{
-			cout << "Number out of range found in plugboard file at index " 
-			<< index << endl;
+			cerr << "Number out of range in plugboard file " << filename << endl; 
 			error = INVALID_INDEX;
 			return false;
 		}
@@ -68,8 +67,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 		{
 			if(!(repetition_test(plugboard, index)))
 			{
-				cout << "Repetition found in plugboard file at index " 
-				<< index << endl;
+				cerr << "Repetition in plugboard file " << filename << endl; 
 				error = IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
 				return false;
 			}
@@ -81,7 +79,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 	//Return error if number of ints in file is over 26
 	if (plugboard_size == 25 && !(eof_test(plugboard_file)))
 	{
-		cout << "Too many parameters in plugboard file." << endl;
+		cerr << "Too many parameters in plugboard file " << filename << endl;
 		plugboard_file.close();
 		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 		return false;
@@ -93,16 +91,16 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 	//End is signalled.
 	if (!(plugboard_size % 2))
 	{
-		cout << "Odd number of parameters in plugboard file." << endl;
+		cerr << "Odd number of parameters in plugboard " << filename << endl;
 		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 		return false;
 	}
 
-	cout << "SUCCESS! Plugboard file reads: " << endl;
-	for (int j = 0; j < index; j++)
-	{
-		cout << plugboard[j] << endl;
-	}
+	//cout << "SUCCESS! Plugboard file reads: " << endl;
+	//for (int j = 0; j < index; j++)
+	//{
+	//	cout << plugboard[j] << endl;
+	//}
 
 	return true;
 }
