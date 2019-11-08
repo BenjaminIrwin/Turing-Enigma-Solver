@@ -76,6 +76,13 @@ int main (int argc, char* argv[])
 	{
 		return error;
 	}
+	cout << "Reflector positions: " << endl;
+	for (int i = 0 ; i < num_rotors ; i++)
+	{
+		cout << positions[i] << " ";
+	}
+	
+	cout << endl;
 
 //Load starting positions
 
