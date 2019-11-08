@@ -146,13 +146,13 @@ bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], 
 	}
 
 	//Return error if number of ints in file is over 26, DO I NEED THIS?
-	if (index == num_of_rotors && !(eof_test(rotor_pos_file)))
-	{
-		cout << "Too many ints in file." << endl;
-		rotor_pos_file.close();
-		error = INVALID_INDEX;
-		return false;
-	}
+//	if (index == num_of_rotors && !(eof_test(rotor_pos_file)))
+//	{
+//		cout << "Too many ints in file." << endl;
+//		rotor_pos_file.close();
+//		error = INVALID_INDEX;
+//		return false;
+//	}
 
 		rotor_pos_file.close();
 
