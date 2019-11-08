@@ -73,13 +73,13 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		return false;
 	}
 
-	cout << "Rotor: " << endl;
-	for (int j = 0; j < index; j++)
-	{
-		cout << rotor_[j] << " ";
-	}
+//	cout << "Rotor: " << endl;
+//	for (int j = 0; j < index; j++)
+//	{
+//		cout << rotor_[j] << " ";
+//	}
 	
-	cout << endl;
+//	cout << endl;
 
 	convert_rotor(rotor_);
 
@@ -132,11 +132,11 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 	num_notches = index;
 
-	cout << "Success! Please read the notch numbers below: " << endl;
-	for (int j = 0; j < index; j++)
-	{
-		cout << notches[j] << endl;
-	}
+//	cout << "Success! Please read the notch numbers below: " << endl;
+//	for (int j = 0; j < index; j++)
+//	{
+//		cout << notches[j] << endl;
+//	}
 
 	return true;
 
