@@ -172,7 +172,7 @@ int main (int argc, char* argv[])
 			}
 		}
 	}
-/
+
 	plugboard.operate_plugboard(letter);
 	cout << letter << "->";
 
@@ -196,7 +196,7 @@ int main (int argc, char* argv[])
 
 	plugboard.operate_plugboard(letter);
 
-	cout << letter;
+	cout << letter << endl;
 
 	}
 
