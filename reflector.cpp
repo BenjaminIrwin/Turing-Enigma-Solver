@@ -53,7 +53,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 	int index, repeat_index = 0;
 
-	for (index = 0 ; !(eof_test(reflector_file)) ; index++)
+	for (index = 0 ; index <= 26 && !(eof_test(reflector_file)) ; index++)
 	{
 		if(index <= 25)
 		{
@@ -83,7 +83,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 					cerr << "Invalid mapping of output " << reflector[index]
 					<< " in " << filename << ". Output "
 					<< reflector[index] << " is already mapped to "
-					<< reflector[repeat_index] << "." << endl;
+					<< repeat_index << "." << endl;
 					reflector_file.close();
 					error = INVALID_REFLECTOR_MAPPING;
 					return false;

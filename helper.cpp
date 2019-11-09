@@ -6,7 +6,7 @@
 
 using namespace std;
 
-bool repetition_test (int num_array[], int array_pos, int repeat_index)
+bool repetition_test (int num_array[], int array_pos, int& repeat_index)
 {
 //Checks all ints behind current one in array
 //to see if previously appeared.
@@ -107,7 +107,7 @@ bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], 
 	//Empty file check
 	if (eof_test(rotor_pos_file))
 	{
-		cerr << "Insufficient number of parameters in rotor positions file " << filename <<  ". Not starting position for rotor 0." << endl;
+		cerr << "Insufficient number of parameters in rotor positions file " << filename <<  "." << endl << "No starting position for rotor 0." << endl;
 		rotor_pos_file.close();
 		error = NO_ROTOR_STARTING_POSITION;
 		return false;
@@ -140,7 +140,7 @@ bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], 
 
 	if (index < num_of_rotors)
 	{
-		cerr << "Insufficient number of parameters in rotor positions file " << filename << ". No starting position for rotor " << index << "." << endl;
+		cerr << "Insufficient number of parameters in rotor positions file " << filename << "." << endl << "No starting position for rotor " << index << "." << endl;
 		rotor_pos_file.close();
 		error = NO_ROTOR_STARTING_POSITION;
 		return false;
