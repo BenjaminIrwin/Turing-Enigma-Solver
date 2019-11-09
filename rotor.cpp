@@ -204,15 +204,16 @@ void Rotor::convert_rotor(int rotor_[])
 
 }
 
-void Rotor::calibrate_start_pos(int positions[], int rotor_index)
+void Rotor::calibrate_start_pos(int positions[], int rotor_index, int num_rotors)
 {
 
-	while (mapping[0][0] != static_cast<char>(positions[rotor_index] + 65))
+	while (mapping[0][0] != static_cast<char>(positions[(num_rotors - 1) - rotor_index] + 65))
 	{
 		rotor_rotate();
 	}
 
-	while (mapping_backwards[0][1] != static_cast<char>(positions[rotor_index] + 65))
+	while (mapping_backwards[0][1] != static_cast<char>(positions[(num_rotors - 1) - rotor_index] + 65))
+
 	{
 		backwards_rotor_rotate();
 	}

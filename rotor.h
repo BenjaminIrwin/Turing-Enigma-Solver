@@ -24,7 +24,7 @@ public:
 
 	void convert_rotor(int rotor_[]);
 
-	void calibrate_start_pos(int positions[], int rotor_index);
+	void calibrate_start_pos(int positions[], int rotor_index, int num_rotors);
 
 	char rtol(char i);
 

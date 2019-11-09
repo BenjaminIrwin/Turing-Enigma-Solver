@@ -101,7 +101,7 @@ int main (int argc, char* argv[])
 
 	for (int i = 0 ; i < num_rotors ; i++)
 	{
-		rotors[i].calibrate_start_pos(positions, i);
+		rotors[i].calibrate_start_pos(positions, i, num_rotors);
 	}
 /*
 	for (int x = 0; x < num_rotors; x++)
