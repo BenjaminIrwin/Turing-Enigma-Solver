@@ -56,7 +56,8 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		{
 			if(!(repetition_test(rotor_, index)))
 			{
-				cerr << "Repetition found in rotor file " << filename << endl;
+				cerr << "Invalid mapping of input " << rotor_[index] 
+				<< " in " << filename << endl;
 				rotor_file.close();
 				error = INVALID_ROTOR_MAPPING;
 				return false;

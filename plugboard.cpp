@@ -5,7 +5,7 @@
 #include <istream>
 #include <iostream>
 using namespace std;
-
+//This function operates the plugboard.
 void Plugboard::operate_plugboard(char &i)
 {
 
@@ -37,6 +37,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 	if(plugboard_file.fail())
 	{
 		cerr << "Plugboard file " << filename << " open failed." << endl;
+		plugboard_file.close();
 		error = ERROR_OPENING_CONFIGURATION_FILE;
 		return false;
 	}
@@ -49,6 +50,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 		if(!(symbol_test(plugboard_file)))
 		{
 			cerr << "Non-numeric character in plugboard file " << filename << endl;
+			plugboard_file.close();
 			error = NON_NUMERIC_CHARACTER;
 			return false;
 		}
@@ -59,6 +61,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 		if (!(range_test(plugboard, index)))
 		{
 			cerr << "Number out of range in plugboard file " << filename << endl; 
+			plugboard_file.close();
 			error = INVALID_INDEX;
 			return false;
 		}
@@ -67,7 +70,9 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 		{
 			if(!(repetition_test(plugboard, index)))
 			{
-				cerr << "Repetition in plugboard file " << filename << endl; 
+				cerr << "Invalid mapping of input " << plugboard[index] 
+				<< " in " << filename << endl; 
+				plugboard_file.close();
 				error = IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
 				return false;
 			}
@@ -79,7 +84,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 	//Return error if number of ints in file is over 26
 	if (plugboard_size == 25 && !(eof_test(plugboard_file)))
 	{
-		cerr << "Too many parameters in plugboard file " << filename << endl;
+		cerr << "Too many mappings in plugboard file " << filename << endl;
 		plugboard_file.close();
 		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 		return false;
@@ -91,7 +96,8 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 	//End is signalled.
 	if (!(plugboard_size % 2))
 	{
-		cerr << "Odd number of parameters in plugboard file " << filename << endl;
+		cerr << "Odd number of mappings in plugboard file " << filename << endl;
+		plugboard_file.close();
 		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 		return false;
 	}
