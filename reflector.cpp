@@ -80,8 +80,8 @@ bool Reflector::set_reflector(char const filename[], int& error)
 			{
 				if(!(repetition_test(reflector, index, repeat_index)))
 				{
-					cerr << "Invalid mapping of " << reflector[index]
-					<< " in " << filename << endl;
+					cerr << "Invalid mapping of input " << reflector[index]
+					<< " in " << filename << "." << endl;
 					reflector_file.close();
 					error = INVALID_REFLECTOR_MAPPING;
 					return false;
