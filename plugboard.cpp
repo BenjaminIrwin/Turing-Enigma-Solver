@@ -42,7 +42,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 		return false;
 	}
 
-	int index;
+	int index, repeat_index = 0;
 
 	for (index = 0 ; index <= 25 && !(eof_test(plugboard_file)) ; index++)
 	{
@@ -68,7 +68,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 		
 		if (index > 0) 
 		{
-			if(!(repetition_test(plugboard, index)))
+			if(!(repetition_test(plugboard, index, repeat_index)))
 			{
 				cerr << "Invalid mapping of input " << plugboard[index] 
 				<< " in " << filename << endl; 

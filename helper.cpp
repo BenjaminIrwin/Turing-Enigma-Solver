@@ -6,7 +6,7 @@
 
 using namespace std;
 
-bool repetition_test (int num_array[], int array_pos)
+bool repetition_test (int num_array[], int array_pos, int repeat_index)
 {
 //Checks all ints behind current one in array
 //to see if previously appeared.
@@ -15,6 +15,7 @@ bool repetition_test (int num_array[], int array_pos)
 	{
 		if(num_array[i] == num_array[array_pos])
 		{
+			repeat_index = i;
 			return false;
 		}
 	}

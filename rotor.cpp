@@ -28,7 +28,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 	int rotor_[26];
 
-	int index;
+	int index, repeat_index = 0;
 
 	for (index = 0 ; index <= 25 && !(eof_test(rotor_file)) ; index++)
 	{
@@ -54,11 +54,11 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 		if (index > 0)
 		{
-			if(!(repetition_test(rotor_, index)))
+			if(!(repetition_test(rotor_, index, repeat_index)))
 			{
-				cerr << "Invalid mapping of input " << rotor_[index] 
-				<< " in " << filename << endl;
-				rotor_file.close();
+				cerr << "Invalid mapping of input " << index << " to output " 
+				<< rotor_[index] <<  " in " << filename << ". Output " 
+				<< rotor_[index] << " is already mapped to " << rotor_[repeat_index]; 
 				error = INVALID_ROTOR_MAPPING;
 				return false;
 			}
@@ -109,9 +109,9 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 		if (index > 0)
 		{
-			if(!(repetition_test(notches, index)))
+			if(!(repetition_test(notches, index, repeat_index)))
 			{
-				cerr << "Repetition found in rotor file " << filename << endl;
+				cerr << "Notch repetition found in rotor file " << filename << endl;
 				rotor_file.close();
 				error = INVALID_ROTOR_MAPPING;
 				return false;
