@@ -70,8 +70,8 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 		{
 			if(!(repetition_test(plugboard, index, repeat_index)))
 			{
-				cerr << "Invalid mapping of input " << plugboard[index] 
-				<< " in " << filename << "." << endl; 
+				cerr << "Invalid mapping of " << plugboard[index] 
+				<< " in " << filename << endl; 
 				plugboard_file.close();
 				error = IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
 				return false;

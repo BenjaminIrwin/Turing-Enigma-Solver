@@ -58,7 +58,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 			{
 				cerr << "Invalid mapping of input " << index << " to output " 
 				<< rotor_[index] <<  " in " << filename << ". Output " 
-				<< rotor_[index] << " is already mapped to " << repeat_index << "." << endl; 
+				<< rotor_[index] << " is already mapped to input " << repeat_index << "." << endl; 
 				error = INVALID_ROTOR_MAPPING;
 				return false;
 			}
