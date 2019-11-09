@@ -158,7 +158,7 @@ int main (int argc, char* argv[])
 
 	}	
 */
-
+/*
 	for (int i = 0 ; i < num_rotors - 1 ; i++)
 	{
 		if(rotors[i].notch)
@@ -168,7 +168,7 @@ int main (int argc, char* argv[])
 			rotors[i].notch = false;
 		}
 	}
-
+*/
 	plugboard.operate_plugboard(letter);
 //	cout << "After plugboard, letter is " << letter << endl;
 
