@@ -90,9 +90,9 @@ bool Reflector::set_reflector(char const filename[], int& error)
 		}
 	}	
 
-	if (index < 26 && !(index % 2))
+	if (index % 2)
 	{
-		cerr << "Insufficient (odd) number of mappings in reflector file " << filename << endl;
+		cerr << "Incorrect (odd) number of mappings in reflector file " << filename << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 		return false;
@@ -102,12 +102,9 @@ bool Reflector::set_reflector(char const filename[], int& error)
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 
-	}
-
-	//Return error if number of ints in file is over 26
-	if (index == 26 && !(eof_test(reflector_file)))
+	} else if (index > 26)
 	{
-		cerr << "REFLECTOR: Too many ints in file." << endl;
+		cerr << "Too many mappings in reflector file " << filename << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 		return false;
