@@ -145,7 +145,7 @@ int main (int argc, char* argv[])
 	{
 		if (letter < 64 || letter > 91)
 		{
-			cerr << letter << "is an invalid input character." << endl;
+			cerr << letter << " is an invalid input character (input characters must be upper case letters (A to Z)!" << endl;
 			error = INVALID_INPUT_CHARACTER;
 			return error;
 		}

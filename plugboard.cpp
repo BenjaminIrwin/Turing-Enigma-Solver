@@ -91,7 +91,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 	//End is signalled.
 	if (!(plugboard_size % 2))
 	{
-		cerr << "Odd number of parameters in plugboard " << filename << endl;
+		cerr << "Odd number of parameters in plugboard file " << filename << endl;
 		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 		return false;
 	}

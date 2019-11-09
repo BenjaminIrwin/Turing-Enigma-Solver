@@ -90,7 +90,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 		if(!(symbol_test(rotor_file)))
 		{
-			cerr << "Non numeric character found in rotor file " << filename << endl;
+			cerr << "Non-numeric character found in rotor file " << filename << endl;
 			rotor_file.close();
 			error = NON_NUMERIC_CHARACTER;
 			return false;

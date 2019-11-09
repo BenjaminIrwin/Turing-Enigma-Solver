@@ -58,7 +58,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 		if(!(symbol_test(reflector_file)))
 		{
-			cerr << "Non-numeric character found in reflector file " << filename << endl;
+			cerr << "Non-numeric character in reflector file " << filename << endl;
 			reflector_file.close();	
 			error = NON_NUMERIC_CHARACTER;
 			return false;
@@ -89,7 +89,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 	if (index < 26)
 	{
-		cerr << "Insufficient number of parameters in reflector file " << filename << endl;
+		cerr << "Insufficient number of mappings in reflector file " << filename << endl;
 		reflector_file.close();
 		error = INVALID_REFLECTOR_MAPPING;
 		return false;
