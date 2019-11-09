@@ -11,7 +11,7 @@ public:
 
 	bool set_reflector(char const filename[], int& error);
 
-	void operate_reflector(char &i);
+	void operate_reflector(int &i);
 };
 
 #endif

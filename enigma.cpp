@@ -136,7 +136,8 @@ int main (int argc, char* argv[])
 
 //Cipher
 
-	char letter = 'A';
+	char letter;
+	int letter_num;
 
 	cout << endl;//Why do I need this?
 	
@@ -150,7 +151,7 @@ int main (int argc, char* argv[])
 			return error;
 		}
 
-
+	letter_num = static_cast<int>(letter - 65);
 //	cout << "MAPPING [0][1] == " << rotors[0].mapping[0][1] << endl;
 /*	
 	for (int x = 0 ; x < 26 ; x++)
@@ -175,28 +176,32 @@ int main (int argc, char* argv[])
 		}
 	}
 
-	plugboard.operate_plugboard(letter);
+	plugboard.operate_plugboard(letter_num);
 
 	for (int i = 0 ; i < num_rotors ; i++)
 	{
-		letter = rotors[i].rtol(letter);
+		letter_num = rotors[i].rtol(letter_num);
 //		cout << "Letter after forward rotor " << i << " is " << letter << endl;
 	}
 
-	reflector.operate_reflector(letter);
+	reflector.operate_reflector(letter_num);
 //	cout << "Letter after reflector is " << letter << endl;
 
 	for (int i = num_rotors - 1 ; i >= 0 ; i--)
 	{
-		letter = rotors[i].ltor(letter);
+		letter_num = rotors[i].ltor(letter_num);
 //		cout << "Letter after backward rotor " << i << " is " << letter << endl;
 	}
 
-	plugboard.operate_plugboard(letter);
-
+	plugboard.operate_plugboard(letter_num);
+	
+	letter = static_cast<char>(letter_num + 65);
+	
 	cout << letter;
 
 	}
+
+	cout << endl;	
 
 	return error;
 }

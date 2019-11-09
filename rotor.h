@@ -10,8 +10,8 @@ class Rotor
 {
 public:
 	int starting_pos;
-	char mapping[26][2];
-	char mapping_backwards[26][2];
+	int mapping[26][2];
+	int mapping_backwards[26][2];
 	int notches[26];
 	int num_notches;
 	bool notch = false;
@@ -26,9 +26,9 @@ public:
 
 	void calibrate_start_pos(int positions[], int rotor_index, int num_rotors);
 
-	char rtol(char i);
+	char rtol(int i);
 
-	char ltor(char i);
+	char ltor(int i);
 
 	int next_smallest_index(int start_index);
 

@@ -12,7 +12,7 @@ public:
 
 	bool set_plugboard(char const filename[], int& error);
 
-	void operate_plugboard(char &i);
+	void operate_plugboard(int &i);
 
 };
 

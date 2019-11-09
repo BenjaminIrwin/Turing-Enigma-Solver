@@ -6,23 +6,23 @@
 #include <iostream>
 using namespace std;
 //This function operates the plugboard.
-void Plugboard::operate_plugboard(char &i)
+void Plugboard::operate_plugboard(int &i)
 {
 
 	for (int a = 0; a <= plugboard_size; a++)
 	{
-		if (i - 65 == plugboard[a])
+		if (i == plugboard[a])
 		{
 			if (a % 2)
 			{
 				
-				i = (plugboard[a - 1] + 65);
+				i = (plugboard[a - 1]);
 				return;
 			}
 
 			if (!(a % 2))
 			{
-				i = (plugboard[a + 1] + 65);
+				i = (plugboard[a + 1]);
 				return;
 			}
 		}

@@ -6,23 +6,23 @@
 #include <iostream>
 using namespace std;
 
-void Reflector::operate_reflector(char &i)
+void Reflector::operate_reflector(int &i)
 {
 
 	for (int a = 0; a <= 25; a++)
 	{
-		if (i - 65 == reflector[a])
+		if (i == reflector[a])
 		{
 			if (a % 2)
 			{
 				
-				i = (reflector[a - 1] + 65);
+				i = (reflector[a - 1]);
 				return;
 			}
 
 			if (!(a % 2))
 			{
-				i = (reflector[a + 1] + 65);
+				i = (reflector[a + 1]);
 				return;
 			}
 		}

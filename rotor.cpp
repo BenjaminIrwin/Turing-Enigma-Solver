@@ -148,7 +148,7 @@ void Rotor::rotor_rotate()
 
 	for (int i = 0 ; i < num_notches ; i++)
 	{
-		if (static_cast<char>(notches[i] + 65) == mapping[0][0])
+		if (notches[i] == mapping[0][0])
 		{	
 			//cerr << "!" << endl;
 			notch = true;
@@ -193,9 +193,9 @@ void Rotor::convert_rotor(int rotor_[])
 	//Fill
 	for (int i = 0; i <= 25; i++)
 	{
-		mapping[i][0] = static_cast<char>(i + 65);
+		mapping[i][0] = i;
 		//cerr << mapping[i][0] << "  ";
-		mapping[i][1] = static_cast<char>(rotor_[i] + 65);
+		mapping[i][1] = rotor_[i];
 		//cerr << mapping[i][1] << "  " << endl;
 	}
 
@@ -208,43 +208,36 @@ void Rotor::convert_rotor(int rotor_[])
 void Rotor::calibrate_start_pos(int positions[], int rotor_index, int num_rotors)
 {
 
-	while (mapping[0][0] != static_cast<char>(positions[(num_rotors - 1) - rotor_index] + 65))
+	while (mapping[0][0] != positions[(num_rotors - 1) - rotor_index])
 	{
 		rotor_rotate();
 	}
 
-	while (mapping_backwards[0][1] != static_cast<char>(positions[(num_rotors - 1) - rotor_index] + 65))
-
+	while (mapping_backwards[0][1] != positions[(num_rotors - 1) - rotor_index])
 	{
 		backwards_rotor_rotate();
 	}
 }
 
-char Rotor::rtol(char i)
+char Rotor::rtol(int i)
 {
-	char o, j = mapping[(static_cast<int>(i) - 65)][1];
-	int x;
+	int x, j = mapping[i][1];
 
 	for (x = 0 ; x <= 25 && mapping[x][0] != j; x++);
 
-	o = static_cast<char>(x + 65);
-
 	//cerr << "Letter maps to " << j << " OR " << o << endl;
-	return o;
+	return x;
 }
 
-char Rotor::ltor(char i)
+char Rotor::ltor(int i)
 {
 
-	char o, j = mapping_backwards[(static_cast<int>(i) - 65)][0];
-	int x;
+	int x, j = mapping_backwards[i][0];
 
 	for (x = 0 ; x <= 25 && mapping_backwards[x][1] != j; x++);
 
-	o = static_cast<char>(x + 65);
-
 	//cerr << "Letter maps to " << j << " OR " << o << endl;
-	return o;
+	return x;
 }
 
 void Rotor::create_backwards_mapping()
@@ -266,8 +259,8 @@ void Rotor::sort_backwards_mapping()
 	for(int i = 0; i < 26; i++)
 	{
 		smallest_index = next_smallest_index(i);
-		char temp1 = mapping_backwards[i][0];
-		char temp2 = mapping_backwards[i][1];
+		int temp1 = mapping_backwards[i][0];
+		int temp2 = mapping_backwards[i][1];
 		mapping_backwards[i][0] = mapping_backwards[smallest_index][0];
 		mapping_backwards[i][1] = mapping_backwards[smallest_index][1];
 
@@ -280,7 +273,7 @@ void Rotor::sort_backwards_mapping()
 
 int Rotor::next_smallest_index(int start_index)
 {
-	char min = mapping_backwards[start_index][1], min_index = start_index;
+	int min = mapping_backwards[start_index][1], min_index = start_index;
 
 	for (int i = start_index + 1; i < 26; i++)
 	{
