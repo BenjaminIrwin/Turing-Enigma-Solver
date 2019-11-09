@@ -12,7 +12,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 	rotor_file.open(filename);
 	if(rotor_file.fail())
 	{
-		cout << "Rotor file open failed." << endl;
+		cerr << "Rotor file " << filename << " open failed." << endl;
 		error = ERROR_OPENING_CONFIGURATION_FILE;
 		return false;
 	}
@@ -20,7 +20,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 	//Empty file check
 	if (eof_test(rotor_file))
 	{
-		cout << "Rotor file empty." << endl;
+		cerr << "Rotor file " << filename << " empty." << endl;
 		rotor_file.close();
 		error = INVALID_ROTOR_MAPPING;
 		return false;
@@ -35,7 +35,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 		if(!(symbol_test(rotor_file)))
 		{
-			cout << "Non numeric character found in rotor file." << endl;
+			cerr << "Non-numeric character in rotor file " << filename << endl;
 			rotor_file.close();
 			error = NON_NUMERIC_CHARACTER;
 			return false;
@@ -46,7 +46,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 		if (!(range_test(rotor_, index)))
 		{
-			cout << "Number out of range found in rotor file." << endl;
+			cerr << "Number out of range found in rotor file " << filename << endl;
 			rotor_file.close();
 			error = INVALID_INDEX;
 			return false;
@@ -56,7 +56,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		{
 			if(!(repetition_test(rotor_, index)))
 			{
-				cout << "Repetition found in rotor file " << filename << endl;
+				cerr << "Repetition found in rotor file " << filename << endl;
 				rotor_file.close();
 				error = INVALID_ROTOR_MAPPING;
 				return false;
@@ -67,16 +67,16 @@ bool Rotor::set_rotor(char const filename[], int& error)
 	//Return error if number of ints in file is under 26
 	if (index < 26 && eof_test(rotor_file))
 	{
-		cout << "Insufficient number of mappings in rotor file." << endl;
+		cerr << "Insufficient number of mappings in rotor file " << filename << endl;
 		rotor_file.close();
 		error = INVALID_ROTOR_MAPPING;
 		return false;
 	}
 
-//	cout << "Success! Please read the rotor numbers below: " << endl;
+//	cerr << "Success! Please read the rotor numbers below: " << endl;
 //	for (int j = 0; j < index; j++)
 //	{
-//		cout << rotor_[j] << endl;
+//		cerr << rotor_[j] << endl;
 //	}
 
 	convert_rotor(rotor_);
@@ -90,7 +90,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 		if(!(symbol_test(rotor_file)))
 		{
-			cout << "Non numeric character found in rotor file." << endl;
+			cerr << "Non numeric character found in rotor file " << filename << endl;
 			rotor_file.close();
 			error = NON_NUMERIC_CHARACTER;
 			return false;
@@ -100,7 +100,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 		if (!(range_test(notches, index)))
 		{
-			cout << "Number out of range found in rotor file." << endl;
+			cerr << "Number out of range found in rotor file " << filename << endl;
 			rotor_file.close();
 			error = INVALID_INDEX;
 			return false;
@@ -110,7 +110,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		{
 			if(!(repetition_test(notches, index)))
 			{
-				cout << "Repetition found in rotor file." << endl;
+				cerr << "Repetition found in rotor file " << filename << endl;
 				rotor_file.close();
 				error = INVALID_ROTOR_MAPPING;
 				return false;
@@ -120,7 +120,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 	if (index > 26)
 	{
-		cout << "Too many notch parameters in rotor file." << endl;
+		cerr << "Too many notch parameters in rotor file " << filename << endl;
 		rotor_file.close();
 		error = INVALID_ROTOR_MAPPING;
 		return false;
@@ -130,10 +130,10 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 	num_notches = index;
 
-//	cout << "Success! Please read the notch numbers below: " << endl;
+//	cerr << "Success! Please read the notch numbers below: " << endl;
 //	for (int j = 0; j < index; j++)
 //	{
-//		cout << notches[j] << endl;
+//		cerr << notches[j] << endl;
 //	}
 
 	return true;
@@ -149,7 +149,7 @@ void Rotor::rotor_rotate()
 	{
 		if (static_cast<char>(notches[i] + 65) == mapping[0][0])
 		{	
-			//cout << "!" << endl;
+			//cerr << "!" << endl;
 			notch = true;
 		}
 	}
@@ -193,9 +193,9 @@ void Rotor::convert_rotor(int rotor_[])
 	for (int i = 0; i <= 25; i++)
 	{
 		mapping[i][0] = static_cast<char>(i + 65);
-		//cout << mapping[i][0] << "  ";
+		//cerr << mapping[i][0] << "  ";
 		mapping[i][1] = static_cast<char>(rotor_[i] + 65);
-		//cout << mapping[i][1] << "  " << endl;
+		//cerr << mapping[i][1] << "  " << endl;
 	}
 
 	create_backwards_mapping();
@@ -228,7 +228,7 @@ char Rotor::rtol(char i)
 
 	o = static_cast<char>(x + 65);
 
-	//cout << "Letter maps to " << j << " OR " << o << endl;
+	//cerr << "Letter maps to " << j << " OR " << o << endl;
 	return o;
 }
 
@@ -242,7 +242,7 @@ char Rotor::ltor(char i)
 
 	o = static_cast<char>(x + 65);
 
-	//cout << "Letter maps to " << j << " OR " << o << endl;
+	//cerr << "Letter maps to " << j << " OR " << o << endl;
 	return o;
 }
 

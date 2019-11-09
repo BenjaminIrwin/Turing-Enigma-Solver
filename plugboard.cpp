@@ -36,7 +36,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 	plugboard_file.open(filename);
 	if(plugboard_file.fail())
 	{
-		cerr << "Plugboard file " << filename << "open failed." << endl;
+		cerr << "Plugboard file " << filename << " open failed." << endl;
 		error = ERROR_OPENING_CONFIGURATION_FILE;
 		return false;
 	}

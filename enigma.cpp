@@ -150,7 +150,6 @@ int main (int argc, char* argv[])
 			return error;
 		}
 
-	cout << letter << "->";
 
 //	cout << "MAPPING [0][1] == " << rotors[0].mapping[0][1] << endl;
 /*	
@@ -177,29 +176,25 @@ int main (int argc, char* argv[])
 	}
 
 	plugboard.operate_plugboard(letter);
-	cout << letter << "->";
 
 	for (int i = 0 ; i < num_rotors ; i++)
 	{
 		letter = rotors[i].rtol(letter);
 //		cout << "Letter after forward rotor " << i << " is " << letter << endl;
-		cout << letter << "->";
 	}
 
 	reflector.operate_reflector(letter);
 //	cout << "Letter after reflector is " << letter << endl;
-	cout << letter << "->";
 
 	for (int i = num_rotors - 1 ; i >= 0 ; i--)
 	{
 		letter = rotors[i].ltor(letter);
 //		cout << "Letter after backward rotor " << i << " is " << letter << endl;
-		cout << letter << "->";
 	}
 
 	plugboard.operate_plugboard(letter);
 
-	cout << letter << endl;
+	cout << letter;
 
 	}
 

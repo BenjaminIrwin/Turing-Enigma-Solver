@@ -36,7 +36,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 	reflector_file.open(filename);
 	if(reflector_file.fail())
 	{
-		cerr << "Reflector file open failed." << endl;		
+		cerr << "Reflector file " << filename << " open failed." << endl;		
 		error = ERROR_OPENING_CONFIGURATION_FILE;
 		return false;
 	}
@@ -45,7 +45,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 	//Empty file check
 	if (eof_test(reflector_file))
 	{
-		cerr << "Reflector file empty." << endl;
+		cerr << "Reflector file " << filename << " empty." << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 		return false;
