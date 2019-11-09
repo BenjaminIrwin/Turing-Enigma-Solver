@@ -53,47 +53,55 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 	int index;
 
-	for (index = 0 ; index <= 25 && !(eof_test(reflector_file)) ; index++)
+	for (index = 0 ; !(eof_test(reflector_file)) ; index++)
 	{
-
-		if(!(symbol_test(reflector_file)))
+		if(index <= 25)
 		{
-			cerr << "Non-numeric character in reflector file " << filename << endl;
-			reflector_file.close();	
-			error = NON_NUMERIC_CHARACTER;
-			return false;
-		}
-
-
-		reflector_file >> reflector[index];
-
-		if (!(range_test(reflector, index)))
-		{
-			cerr << "Number out of range in reflector file " << filename << endl;
-			reflector_file.close();
-			error = INVALID_INDEX;
-			return false;
-		}
-		
-		if (index > 0) 
-		{
-			if(!(repetition_test(reflector, index)))
+			if(!(symbol_test(reflector_file)))
 			{
-				cerr << "Invalid mapping of input " << reflector[index]
-				<< " in " << filename << endl;
-				reflector_file.close();
-				error = INVALID_REFLECTOR_MAPPING;
+				cerr << "Non-numeric character in reflector file " << filename << endl;
+				reflector_file.close();	
+				error = NON_NUMERIC_CHARACTER;
 				return false;
+			}
+
+
+			reflector_file >> reflector[index];
+
+			if (!(range_test(reflector, index)))
+			{
+				cerr << "Number out of range in reflector file " << filename << endl;
+				reflector_file.close();
+				error = INVALID_INDEX;
+				return false;
+			}
+			
+			if (index > 0) 
+			{
+				if(!(repetition_test(reflector, index)))
+				{
+					cerr << "Invalid mapping of input " << reflector[index]
+					<< " in " << filename << endl;
+					reflector_file.close();
+					error = INVALID_REFLECTOR_MAPPING;
+					return false;
+				}
 			}
 		}
 	}	
 
-	if (index < 26)
+	if (index < 26 && !(index % 2))
+	{
+		cerr << "Insufficient (odd) number of mappings in reflector file " << filename << endl;
+		reflector_file.close();
+		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
+		return false;
+	} else if (index < 26)
 	{
 		cerr << "Insufficient number of mappings in reflector file " << filename << endl;
 		reflector_file.close();
-		error = INVALID_REFLECTOR_MAPPING;
-		return false;
+		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
+
 	}
 
 	//Return error if number of ints in file is over 26
