@@ -138,7 +138,7 @@ int main (int argc, char* argv[])
 	cout << endl;//Why do I need this?
 	
 
-	while (cin >> ws >> letter)
+	while (cin >> ws >> letter && letter != '.')
 	{
 		if (letter < 64 || letter > 91)
 		{
@@ -147,7 +147,8 @@ int main (int argc, char* argv[])
 			return error;
 		}
 
-	rotors[0].rotor_rotate();
+	cout << letter << "->";
+
 //	cout << "MAPPING [0][1] == " << rotors[0].mapping[0][1] << endl;
 /*	
 	for (int x = 0 ; x < 26 ; x++)
@@ -158,33 +159,39 @@ int main (int argc, char* argv[])
 
 	}	
 */
-/*
-	for (int i = 0 ; i < num_rotors - 1 ; i++)
+	if(num_rotors > 0)
 	{
-		if(rotors[i].notch)
+		rotors[0].rotor_rotate();
+		for (int i = 0 ; i < num_rotors - 1 ; i++)
 		{
-			//cout << "ALERT: NOTCH FOUND IN ROTOR " << i << endl;
-			rotors[i + 1].rotor_rotate();
-			rotors[i].notch = false;
+			if(rotors[i].notch)
+			{
+				//cout << "ALERT: NOTCH FOUND IN ROTOR " << i << endl;
+				rotors[i + 1].rotor_rotate();
+				rotors[i].notch = false;
+			}
 		}
 	}
-*/
+/
 	plugboard.operate_plugboard(letter);
-//	cout << "After plugboard, letter is " << letter << endl;
+	cout << letter << "->";
 
 	for (int i = 0 ; i < num_rotors ; i++)
 	{
 		letter = rotors[i].rtol(letter);
 //		cout << "Letter after forward rotor " << i << " is " << letter << endl;
+		cout << letter << "->";
 	}
 
 	reflector.operate_reflector(letter);
 //	cout << "Letter after reflector is " << letter << endl;
+	cout << letter << "->";
 
 	for (int i = num_rotors - 1 ; i >= 0 ; i--)
 	{
 		letter = rotors[i].ltor(letter);
 //		cout << "Letter after backward rotor " << i << " is " << letter << endl;
+		cout << letter << "->";
 	}
 
 	plugboard.operate_plugboard(letter);
