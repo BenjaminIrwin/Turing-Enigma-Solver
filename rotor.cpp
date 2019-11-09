@@ -56,7 +56,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		{
 			if(!(repetition_test(rotor_, index)))
 			{
-				cout << "Repetition found in rotor file." << endl;
+				cout << "Repetition found in rotor file " << filename << endl;
 				rotor_file.close();
 				error = INVALID_ROTOR_MAPPING;
 				return false;
