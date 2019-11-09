@@ -59,7 +59,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 		{
 			if(!(symbol_test(reflector_file)))
 			{
-				cerr << "Non-numeric character in reflector file " << filename << endl;
+				cerr << "Non-numeric character in reflector file " << filename << "." << endl;
 				reflector_file.close();	
 				error = NON_NUMERIC_CHARACTER;
 				return false;
@@ -70,7 +70,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 			if (!(range_test(reflector, index)))
 			{
-				cerr << "Number out of range in reflector file " << filename << endl;
+				cerr << "Number out of range in reflector file " << filename << "." << endl;
 				reflector_file.close();
 				error = INVALID_INDEX;
 				return false;
@@ -83,7 +83,7 @@ bool Reflector::set_reflector(char const filename[], int& error)
 					cerr << "Invalid mapping of output " << reflector[index]
 					<< " in " << filename << ". Output "
 					<< reflector[index] << " is already mapped to "
-					<< reflector[repeat_index];
+					<< reflector[repeat_index] << "." << endl;
 					reflector_file.close();
 					error = INVALID_REFLECTOR_MAPPING;
 					return false;
@@ -94,19 +94,19 @@ bool Reflector::set_reflector(char const filename[], int& error)
 
 	if (index % 2)
 	{
-		cerr << "Incorrect (odd) number of mappings in reflector file " << filename << endl;
+		cerr << "Incorrect (odd) number of mappings in reflector file " << filename << "." << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 		return false;
 	} else if (index < 26)
 	{
-		cerr << "Insufficient number of mappings in reflector file " << filename << endl;
+		cerr << "Insufficient number of mappings in reflector file " << filename << "." << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 
 	} else if (index > 26)
 	{
-		cerr << "Too many mappings in reflector file " << filename << endl;
+		cerr << "Too many mappings in reflector file " << filename << "." << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 		return false;

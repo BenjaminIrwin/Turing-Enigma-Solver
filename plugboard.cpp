@@ -49,7 +49,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 
 		if(!(symbol_test(plugboard_file)))
 		{
-			cerr << "Non-numeric character in plugboard file " << filename << endl;
+			cerr << "Non-numeric character in plugboard file " << filename << "." << endl;
 			plugboard_file.close();
 			error = NON_NUMERIC_CHARACTER;
 			return false;
@@ -60,7 +60,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 
 		if (!(range_test(plugboard, index)))
 		{
-			cerr << "Number out of range in plugboard file " << filename << endl; 
+			cerr << "Number out of range in plugboard file " << filename << "." << endl; 
 			plugboard_file.close();
 			error = INVALID_INDEX;
 			return false;
@@ -71,7 +71,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 			if(!(repetition_test(plugboard, index, repeat_index)))
 			{
 				cerr << "Invalid mapping of input " << plugboard[index] 
-				<< " in " << filename << endl; 
+				<< " in " << filename << "." << endl; 
 				plugboard_file.close();
 				error = IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
 				return false;
@@ -84,7 +84,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 	//Return error if number of ints in file is over 26
 	if (plugboard_size == 25 && !(eof_test(plugboard_file)))
 	{
-		cerr << "Too many mappings in plugboard file " << filename << endl;
+		cerr << "Too many mappings in plugboard file " << filename << "." << endl;
 		plugboard_file.close();
 		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 		return false;
@@ -96,7 +96,7 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 	//End is signalled.
 	if (!(plugboard_size % 2))
 	{
-		cerr << "Odd number of mappings in plugboard file " << filename << endl;
+		cerr << "Odd number of mappings in plugboard file " << filename << "." << endl;
 		plugboard_file.close();
 		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 		return false;

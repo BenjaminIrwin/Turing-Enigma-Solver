@@ -99,7 +99,7 @@ bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], 
 	rotor_pos_file.open(filename);
 	if(rotor_pos_file.fail())
 	{
-		cerr << "Rotor positions file " << filename << endl;
+		cerr << "Rotor positions file " << filename << "." << endl;
 		error = ERROR_OPENING_CONFIGURATION_FILE;
 		return false;
 	}
@@ -107,7 +107,7 @@ bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], 
 	//Empty file check
 	if (eof_test(rotor_pos_file))
 	{
-		cerr << "Rotor positions file " << filename << " empty." << endl;
+		cerr << "Insufficient number of parameters in rotor positions file " << filename <<  ". Not starting position for rotor 0." << endl;
 		rotor_pos_file.close();
 		error = NO_ROTOR_STARTING_POSITION;
 		return false;
@@ -120,7 +120,7 @@ bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], 
 
 		if(!(symbol_test(rotor_pos_file)))
 		{
-			cerr << "Non-numeric character in rotor positions file " << filename << endl;
+			cerr << "Non-numeric character in rotor positions file " << filename << "." << endl;
 			rotor_pos_file.close();
 			error = NON_NUMERIC_CHARACTER;
 			return false;
@@ -131,7 +131,7 @@ bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], 
 
 		if (!(range_test(positions, index)))
 		{
-			cerr << "Number out of range in rotor positions file " << filename << endl;
+			cerr << "Number out of range in rotor positions file " << filename << "." << endl;
 			rotor_pos_file.close();
 			error = INVALID_INDEX;
 			return false;
@@ -140,7 +140,7 @@ bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], 
 
 	if (index < num_of_rotors)
 	{
-		cerr << "Insufficient number of parameters in rotor positions file " << filename << endl;
+		cerr << "Insufficient number of parameters in rotor positions file " << filename << ". No starting position for rotor " << index << "." << endl;
 		rotor_pos_file.close();
 		error = NO_ROTOR_STARTING_POSITION;
 		return false;
