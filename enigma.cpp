@@ -46,14 +46,17 @@ int main (int argc, char* argv[])
 		
 		rotors = new Rotor[num_rotors];
 		
-		for (int i = num_rotors - 1; i >= 0; i--)
-		{
+		int j = 0;
 
-			if (!(rotors[i].set_rotor(argv[i + 3], error)))
+		for (int i = num_rotors - 1; i >= 0; i-- )
+		{
+			
+			if (!(rotors[j].set_rotor(argv[i + 3], error)))
 			{
 				return error;
 			}
 			
+			j++;
 	
 		}
 	}
