@@ -78,8 +78,6 @@ bool Enigma::encrypt(istream& input, ostream& output, int& error)
 	char letter;
 	int letter_num;
 
-	output << endl;//Why do I need this?
-	
 	while (input >> ws >> letter && letter != '.')
 	{
 		if (letter < 64 || letter > 91)
