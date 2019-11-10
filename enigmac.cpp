@@ -129,3 +129,11 @@ bool Enigma::encrypt(istream& input, ostream& output, int& error)
 
 	return true;
 }
+
+Enigma::~Enigma()
+{
+	if (num_rotors > 0)
+	{
+		delete [] rotors;
+	}
+}

@@ -14,6 +14,8 @@ public:
 
 	bool encrypt(std::istream& input, std::ostream& output, int& error);
 
+	~Enigma();
+
 private:
 	Rotor* rotors;
 	int num_rotors;
