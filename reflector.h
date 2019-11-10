@@ -6,9 +6,10 @@
 
 class Reflector
 {
-public:
+private:
 	int reflector[26];
 
+public:
 	bool set_reflector(char const filename[], int& error);
 
 	void operate_reflector(int &i);

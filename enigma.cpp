@@ -4,11 +4,24 @@
 #include "reflector.h"
 #include "errors.h"
 #include "helper.h"
+#include "enigmac.h"
 using namespace std;
 
 int main (int argc, char* argv[])
 {
 
+	int error = 0;
+	Enigma enigma;
+	
+	enigma.set_enigma(argc, argv, error);
+
+	enigma.encrypt(cin, cout, error);
+	
+
+	return error;
+}
+
+/*
 //Read input
 
 	int error = 0;
@@ -69,7 +82,7 @@ int main (int argc, char* argv[])
 //
 //	}	
 
-/*
+
 	for (int x = 0; x < num_rotors; x++)
 	{
 		for (int i = 0 ; i < 26 ; i++)
@@ -80,7 +93,7 @@ int main (int argc, char* argv[])
 
 		}	
 	}
-*/
+
 
 //Load rotor positions
 
@@ -103,7 +116,7 @@ int main (int argc, char* argv[])
 	{
 		rotors[i].calibrate_start_pos(positions, i, num_rotors);
 	}
-/*
+
 	for (int x = 0; x < num_rotors; x++)
 	{
 		for (int i = 0 ; i < 26 ; i++)
@@ -127,7 +140,7 @@ int main (int argc, char* argv[])
 
 		}	
 	}
-*/
+
 
 	
 
@@ -153,7 +166,7 @@ int main (int argc, char* argv[])
 
 	letter_num = static_cast<int>(letter - 65);
 //	cout << "MAPPING [0][1] == " << rotors[0].mapping[0][1] << endl;
-/*	
+	
 	for (int x = 0 ; x < 26 ; x++)
 	{
 
@@ -161,7 +174,7 @@ int main (int argc, char* argv[])
 		<< endl; 
 
 	}	
-*/
+
 	if(num_rotors > 0)
 	{
 		rotors[0].rotor_rotate();
@@ -203,5 +216,9 @@ int main (int argc, char* argv[])
 
 	cout << endl;	
 
+
+	
+
 	return error;
 }
+*/
