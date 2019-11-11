@@ -42,7 +42,6 @@ bool Reflector::set_reflector(char const filename[], int& error)
 	}
 
 
-	//Empty file check
 	if (eof_test(reflector_file))
 	{
 		cerr << "Reflector file " << filename << " empty." << endl;
@@ -111,12 +110,6 @@ bool Reflector::set_reflector(char const filename[], int& error)
 	}
 
 		reflector_file.close();
-
-//	cout << "SUCCESS! Reflector reads: " << endl;
-//	for (int j = 0; j < index; j++)
-//	{
-//		cout << reflector[j] << endl;
-//	}
 
 	return true;
 

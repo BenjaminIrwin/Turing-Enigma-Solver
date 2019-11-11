@@ -17,7 +17,6 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		return false;
 	}
 
-	//Empty file check
 	if (eof_test(rotor_file))
 	{
 		cerr << "Rotor file " << filename << " empty." << endl;
@@ -65,7 +64,6 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		}
 	}
 
-	//Return error if number of ints in file is under 26
 	if (index < 26 && eof_test(rotor_file))
 	{
 		cerr << "Insufficient number of mappings in rotor file " << filename << "." << endl;
@@ -74,17 +72,7 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		return false;
 	}
 
-//	cerr << "Success! Please read the rotor numbers below: " << endl;
-//	for (int j = 0; j < index; j++)
-//	{
-//		cerr << rotor_[j] << endl;
-//	}
-
 	convert_rotor(rotor_);
-
-	//This is where we deal with the notches.
-	//First put them in an array of massive max size.
-	//Then use a dynamic array to store however many there are.
 
 	for (index = 0 ; index <= 25 && !(eof_test(rotor_file)) ; index++)
 	{
@@ -131,12 +119,6 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 	num_notches = index;
 
-//	cerr << "Success! Please read the notch numbers below: " << endl;
-//	for (int j = 0; j < index; j++)
-//	{
-//		cerr << notches[j] << endl;
-//	}
-
 	return true;
 
 }
@@ -150,7 +132,6 @@ void Rotor::rotor_rotate()
 	{
 		if (notches[i] == mapping[0][0])
 		{	
-			//cerr << "!" << endl;
 			notch = true;
 		}
 	}
@@ -158,7 +139,6 @@ void Rotor::rotor_rotate()
 
 void Rotor::forwards_rotor_rotate()
 {
-//Convert this into a shuffle up for TWO DIMENSIONAL array.
 	int temp1 = mapping[0][0], temp2 = mapping[0][1];
 
 	for (int i = 0; i < 25; i++)
@@ -190,13 +170,10 @@ void Rotor::backwards_rotor_rotate()
 void Rotor::convert_rotor(int rotor_[])
 {
 
-	//Fill
 	for (int i = 0; i <= 25; i++)
 	{
 		mapping[i][0] = i;
-		//cerr << mapping[i][0] << "  ";
 		mapping[i][1] = rotor_[i];
-		//cerr << mapping[i][1] << "  " << endl;
 	}
 
 	create_backwards_mapping();
@@ -225,7 +202,6 @@ char Rotor::rtol(int i)
 
 	for (x = 0 ; x <= 25 && mapping[x][0] != j; x++);
 
-	//cerr << "Letter maps to " << j << " OR " << o << endl;
 	return x;
 }
 
@@ -236,7 +212,6 @@ char Rotor::ltor(int i)
 
 	for (x = 0 ; x <= 25 && mapping_backwards[x][1] != j; x++);
 
-	//cerr << "Letter maps to " << j << " OR " << o << endl;
 	return x;
 }
 

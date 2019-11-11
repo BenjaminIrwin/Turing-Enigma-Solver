@@ -8,9 +8,6 @@ using namespace std;
 
 bool repetition_test (int num_array[], int array_pos, int& repeat_index)
 {
-//Checks all ints behind current one in array
-//to see if previously appeared.
-
 	for (int i = array_pos - 1; i >= 0; i--)
 	{
 		if(num_array[i] == num_array[array_pos])
@@ -21,13 +18,10 @@ bool repetition_test (int num_array[], int array_pos, int& repeat_index)
 	}
 
 	return true;
-
 }
 
 bool range_test(int num_array[], int array_pos)
 {
-//Checks if number is >=0 and < 26
-
 	if(num_array[array_pos] < 0 || num_array[array_pos] > 25)
 	{
 		return false;
@@ -35,15 +29,10 @@ bool range_test(int num_array[], int array_pos)
 	{
 		return true;
 	}
-
 }
 
 bool symbol_test(ifstream& input_file)
 {
-
-//Use .get to look three chars ahead
-//If symbol then return error code
-//Else return three slots back.
 	int position = input_file.tellg();
 	string next;
 	input_file >> next;
@@ -55,24 +44,7 @@ bool symbol_test(ifstream& input_file)
 			return false;
 		}
 	}
-/*
-	for (int i = 1; i <= 3; i++)
-	{
-		char h;
-		input_file.get(h);
-		if (h == '\n' || input_file.eof())
-		{
-			input_file.seekg(-i, ios_base::cur);
-			return true;
-		}
 
-		if (h != ' ' && h != '-' && (h < 48 || h > 57))
-		{
-			return false;
-		}
-
-	}
-*/
 	input_file.seekg(position, ios_base::beg);
 	return true;
 }
@@ -104,7 +76,6 @@ bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], 
 		return false;
 	}
 
-	//Empty file check
 	if (eof_test(rotor_pos_file))
 	{
 		cerr << "Insufficient number of parameters in rotor positions file " << filename <<  "." << endl << "No starting position for rotor 0." << endl;
@@ -146,24 +117,7 @@ bool fetch_rotor_pos(char const filename[], int num_of_rotors, int positions[], 
 		return false;
 	}
 
-	//Return error if number of ints in file is over 26, DO I NEED THIS?
-//	if (index == num_of_rotors && !(eof_test(rotor_pos_file)))
-//	{
-//		cout << "Too many ints in file." << endl;
-//		rotor_pos_file.close();
-//		error = INVALID_INDEX;
-//		return false;
-//	}
-
 		rotor_pos_file.close();
 
-
-//	cout << "SUCCESS! File reads: " << endl;
-//	for (int j = 0; j < index; j++)
-//	{
-//		cout << positions[j] << endl;
-//	}
-
 	return true;
-
 }
