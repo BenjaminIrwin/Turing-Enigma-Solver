@@ -18,7 +18,7 @@ public:
 
 private:
 	Rotor* rotors;
-	int num_rotors;
+	int num_rotors = 0;
 	Plugboard plugboard;
 	Reflector reflector; 
 };

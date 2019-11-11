@@ -80,7 +80,7 @@ bool symbol_test(ifstream& input_file)
 bool eof_test(ifstream& input_file)
 {
 
-	char c;
+	char c = 0;
 	int offset = input_file.tellg();
 	input_file >> c;
 
