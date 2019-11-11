@@ -13,10 +13,11 @@ int main (int argc, char* argv[])
 	int error = 0;
 	Enigma enigma;
 	
-	enigma.set_enigma(argc, argv, error);
+	if(!enigma.set_enigma(argc, argv, error))
+		return error;
 
-	enigma.encrypt(cin, cout, error);
-	
+	if(!enigma.encrypt(cin, cout, error))
+		return error;
 
 	return error;
 }
