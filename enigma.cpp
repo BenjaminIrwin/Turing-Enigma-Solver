@@ -14,8 +14,8 @@ bool Enigma::set_enigma(int argc, char** argv, int& error)
 	if (argc < 4)//Check input
 	{
 		error = INSUFFICIENT_NUMBER_OF_PARAMETERS;
-		cerr << "usage: enigma plugboard-file reflector-file\
-		(<rotor-file>)* rotor-positions";
+		cerr << "usage: enigma plugboard-file reflector-file"
+		"(<rotor-file>)* rotor-positions";
 		return false;
 	}
 
@@ -80,9 +80,9 @@ bool Enigma::fetch_rotor_pos(char const filename[], int num_of_rotors,
 
 	if (eof_test(rotor_pos_file))//Check if file empty
 	{
-		cerr << "Insufficient number of parameters in rotor positions\
-		file " << filename <<  "." << endl << "No starting position for\
-		 rotor 0." << endl;
+		cerr << "Insufficient number of parameters in rotor position "
+		"file " << filename <<  "." << endl << "No starting position for"
+		" rotor 0." << endl;
 		rotor_pos_file.close();
 		error = NO_ROTOR_STARTING_POSITION;
 		return false;
@@ -117,9 +117,9 @@ bool Enigma::fetch_rotor_pos(char const filename[], int num_of_rotors,
 
 	if (index < num_of_rotors)//If fewer values than number of rotors
 	{
-		cerr << "Insufficient number of parameters in rotor positions\
-		file " << filename << "." << endl << "No starting position for\
-		 rotor " << index << "." << endl;
+		cerr << "Insufficient number of parameters in rotor positions "
+		" file " << filename << "." << endl << "No starting position for "
+		" rotor " << index << "." << endl;
 		rotor_pos_file.close();
 		error = NO_ROTOR_STARTING_POSITION;
 		return false;
@@ -139,9 +139,9 @@ bool Enigma::encrypt(istream& input, ostream& output, int& error)
 	{
 		if (letter < 64 || letter > 91)//Check if input valid
 		{
-			cerr << endl << letter << " is an invalid input\
-			character (input characters must be upper case letters\
-			(A to Z)!" << endl;
+			cerr << endl << letter << " is an invalid input "
+			"character (input characters must be upper case letters "
+			"(A to Z)!" << endl;
 			error = INVALID_INPUT_CHARACTER;
 			return false;
 		}
