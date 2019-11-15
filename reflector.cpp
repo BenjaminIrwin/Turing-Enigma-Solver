@@ -32,17 +32,18 @@ void Reflector::operate_reflector(int &i)
 
 bool Reflector::set_reflector(char const filename[], int& error)
 {
-	ifstream reflector_file;
+	ifstream reflector_file;//Open file
 	reflector_file.open(filename);
-	if(reflector_file.fail())
+	if(reflector_file.fail())//If error opening file
 	{
-		cerr << "Reflector file " << filename << " open failed." << endl;		
+		cerr << "Reflector file " << filename << " open failed." 
+		<< endl;		
 		error = ERROR_OPENING_CONFIGURATION_FILE;
 		return false;
 	}
 
 
-	if (eof_test(reflector_file))
+	if (eof_test(reflector_file))//Check if file empty
 	{
 		cerr << "Reflector file " << filename << " empty." << endl;
 		reflector_file.close();
@@ -56,31 +57,35 @@ bool Reflector::set_reflector(char const filename[], int& error)
 	{
 		if(index <= 25)
 		{
-			if(!(symbol_test(reflector_file)))
+			if(!(symbol_test(reflector_file)))//Check for non-numeric chars
 			{
-				cerr << "Non-numeric character in reflector file " << filename << "." << endl;
+				cerr << "Non-numeric character in reflector\
+				file " << filename << "." << endl;
 				reflector_file.close();	
 				error = NON_NUMERIC_CHARACTER;
 				return false;
 			}
 
 
-			reflector_file >> reflector[index];
+			reflector_file >> reflector[index];//Read in
 
-			if (!(range_test(reflector, index)))
+			if (!(range_test(reflector, index)))//Check number within range
 			{
-				cerr << "Number out of range in reflector file " << filename << "." << endl;
+				cerr << "Number out of range in reflector file "
+				<< filename << "." << endl;
 				reflector_file.close();
 				error = INVALID_INDEX;
 				return false;
 			}
 			
-			if (index > 0) 
+			if (index > 0)//Check for reptitions of read in numbers
 			{
-				if(!(repetition_test(reflector, index, repeat_index)))
+				if(!(repetition_test(reflector, index, 
+							repeat_index)))
 				{
-					cerr << "Invalid mapping of input " << reflector[index]
-					<< " in " << filename << "." << endl;
+					cerr << "Invalid mapping of input " << 
+					reflector[index] << " in " << filename 
+					<< "." << endl;
 					reflector_file.close();
 					error = INVALID_REFLECTOR_MAPPING;
 					return false;
@@ -89,21 +94,24 @@ bool Reflector::set_reflector(char const filename[], int& error)
 		}
 	}	
 
-	if (index % 2)
+	if (index % 2)//Check if number read in is odd
 	{
-		cerr << "Incorrect (odd) number of mappings in reflector file " << filename << "." << endl;
+		cerr << "Incorrect (odd) number of mappings in reflector file " 
+		<< filename << "." << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 		return false;
-	} else if (index < 26)
+	} else if (index < 26)//Check if number read in is less than 26
 	{
-		cerr << "Insufficient number of mappings in reflector file " << filename << "." << endl;
+		cerr << "Insufficient number of mappings in reflector file " 
+		<< filename << "." << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 
-	} else if (index > 26)
+	} else if (index > 26)//Check if number read in is over 26
 	{
-		cerr << "Too many mappings in reflector file " << filename << "." << endl;
+		cerr << "Too many mappings in reflector file " << filename 
+		<< "." << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 		return false;

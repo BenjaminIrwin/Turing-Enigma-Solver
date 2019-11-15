@@ -32,11 +32,12 @@ void Plugboard::operate_plugboard(int &i)
 
 bool Plugboard::set_plugboard(char const filename[], int& error)
 {
-	ifstream plugboard_file;
+	ifstream plugboard_file;//Open file
 	plugboard_file.open(filename);
-	if(plugboard_file.fail())
+	if(plugboard_file.fail())//If error opening file
 	{
-		cerr << "Plugboard file " << filename << " open failed." << endl;
+		cerr << "Plugboard file " << filename << " open failed." 
+		<< endl;
 		plugboard_file.close();
 		error = ERROR_OPENING_CONFIGURATION_FILE;
 		return false;
@@ -47,30 +48,33 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 	for (index = 0 ; index <= 25 && !(eof_test(plugboard_file)) ; index++)
 	{
 
-		if(!(symbol_test(plugboard_file)))
+		if(!(symbol_test(plugboard_file)))//Check for non-numeric chars
 		{
-			cerr << "Non-numeric character in plugboard file " << filename << "." << endl;
+			cerr << "Non-numeric character in plugboard file " 
+			<< filename << "." << endl;
 			plugboard_file.close();
 			error = NON_NUMERIC_CHARACTER;
 			return false;
 		}
 
 
-		plugboard_file >> plugboard[index];
+		plugboard_file >> plugboard[index];//Read in
 
-		if (!(range_test(plugboard, index)))
+		if (!(range_test(plugboard, index)))//Check number within range
 		{
-			cerr << "Number out of range in plugboard file " << filename << "." << endl; 
+			cerr << "Number out of range in plugboard file " 
+			<< filename << "." << endl; 
 			plugboard_file.close();
 			error = INVALID_INDEX;
 			return false;
 		}
 		
-		if (index > 0) 
+		if (index > 0)//Check for repetition of read in numbers
 		{
 			if(!(repetition_test(plugboard, index, repeat_index)))
 			{
-				cerr << "Invalid mapping of input " << plugboard[index] 
+				cerr << "Invalid mapping of input " 
+				<< plugboard[index] 
 				<< " in " << filename << "." << endl; 
 				plugboard_file.close();
 				error = IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
@@ -80,10 +84,11 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 	}	
 
 	plugboard_size = index - 1;	
-
+	//Check for extra mappings
 	if (plugboard_size == 25 && !(eof_test(plugboard_file)))
 	{
-		cerr << "Too many mappings in plugboard file " << filename << "." << endl;
+		cerr << "Too many mappings in plugboard file " << filename 
+		<< "." << endl;
 		plugboard_file.close();
 		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 		return false;
@@ -91,9 +96,10 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 
 		plugboard_file.close();
 
-	if (!(plugboard_size % 2))
+	if (!(plugboard_size % 2))//Check if number of mappings is odd
 	{
-		cerr << "Odd number of mappings in plugboard file " << filename << "." << endl;
+		cerr << "Odd number of mappings in plugboard file " 
+		<< filename << "." << endl;
 		plugboard_file.close();
 		error = INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
 		return false;

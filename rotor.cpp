@@ -8,16 +8,16 @@ using namespace std;
 
 bool Rotor::set_rotor(char const filename[], int& error)
 {
-	ifstream rotor_file;
+	ifstream rotor_file;//Open file
 	rotor_file.open(filename);
-	if(rotor_file.fail())
+	if(rotor_file.fail())//If error opening file
 	{
 		cerr << "Rotor file " << filename << " open failed." << endl;
 		error = ERROR_OPENING_CONFIGURATION_FILE;
 		return false;
 	}
 
-	if (eof_test(rotor_file))
+	if (eof_test(rotor_file))//Check if file empty
 	{
 		cerr << "Rotor file " << filename << " empty." << endl;
 		rotor_file.close();
@@ -32,54 +32,61 @@ bool Rotor::set_rotor(char const filename[], int& error)
 	for (index = 0 ; index <= 25 && !(eof_test(rotor_file)) ; index++)
 	{
 
-		if(!(symbol_test(rotor_file)))
+		if(!(symbol_test(rotor_file)))//Check for non-numeric chars
 		{
-			cerr << "Non-numeric character in rotor file " << filename << "." << endl;
+			cerr << "Non-numeric character in rotor file " 
+			<< filename << "." << endl;
 			rotor_file.close();
 			error = NON_NUMERIC_CHARACTER;
 			return false;
 		}
 
 
-		rotor_file >> rotor_[index];
+		rotor_file >> rotor_[index];//Read in
 
-		if (!(range_test(rotor_, index)))
+		if (!(range_test(rotor_, index)))//Check number within range
 		{
-			cerr << "Number out of range found in rotor file " << filename << "." << endl;
+			cerr << "Number out of range found in rotor file " 
+			<< filename << "." << endl;
 			rotor_file.close();
 			error = INVALID_INDEX;
 			return false;
 		}
 
-		if (index > 0)
+		if (index > 0)//Check for repetition of read in numbers
 		{
 			if(!(repetition_test(rotor_, index, repeat_index)))
 			{
-				cerr << "Invalid mapping of input " << index << " to output " 
-				<< rotor_[index] <<  " in " << filename << "." << endl << " Output " 
-				<< rotor_[index] << " is already mapped to input " << repeat_index << "." << endl; 
+				cerr << "Invalid mapping of input " << index 
+				<< " to output " << rotor_[index] <<  " in " 
+				<< filename << "." << endl << " Output " << 
+				rotor_[index] << " is already mapped to input " 
+				<< repeat_index << "." << endl; 
 				error = INVALID_ROTOR_MAPPING;
 				return false;
 			}
 		}
 	}
-
+	//Check if number of mappings is insufficient
 	if (index < 26 && eof_test(rotor_file))
 	{
-		cerr << "Insufficient number of mappings in rotor file " << filename << "." << endl;
+		cerr << "Insufficient number of mappings in rotor file " 
+		<< filename << "." << endl;
 		rotor_file.close();
 		error = INVALID_ROTOR_MAPPING;
 		return false;
 	}
 
-	convert_rotor(rotor_);
+	convert_rotor(rotor_);//Form mapping and backwards_mapping
 
+	//Read in notches
 	for (index = 0 ; index <= 25 && !(eof_test(rotor_file)) ; index++)
 	{
 
-		if(!(symbol_test(rotor_file)))
+		if(!(symbol_test(rotor_file)))//Check for non-numeric symbols
 		{
-			cerr << "Non-numeric character found in rotor file " << filename << "." << endl;
+			cerr << "Non-numeric character found in rotor file " 
+			<< filename << "." << endl;
 			rotor_file.close();
 			error = NON_NUMERIC_CHARACTER;
 			return false;
@@ -87,19 +94,21 @@ bool Rotor::set_rotor(char const filename[], int& error)
 
 		rotor_file >> notches[index];
 
-		if (!(range_test(notches, index)))
+		if (!(range_test(notches, index)))//Check if number within range
 		{
-			cerr << "Number out of range found in rotor file " << filename << "." << endl;
+			cerr << "Number out of range found in rotor file " 
+			<< filename << "." << endl;
 			rotor_file.close();
 			error = INVALID_INDEX;
 			return false;
 		}
 
-		if (index > 0)
+		if (index > 0)//Check for repetition of read in numbers
 		{
 			if(!(repetition_test(notches, index, repeat_index)))
 			{
-				cerr << "Notch repetition found in rotor file " << filename << "." << endl;
+				cerr << "Notch repetition found in rotor file " 
+				<< filename << "." << endl;
 				rotor_file.close();
 				error = INVALID_ROTOR_MAPPING;
 				return false;
@@ -107,9 +116,10 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		}
 	}
 
-	if (index > 26)
+	if (index > 26)//Check for extra notch mappings
 	{
-		cerr << "Too many notch parameters in rotor file " << filename << "." << endl;
+		cerr << "Too many notch parameters in rotor file " << filename 
+		<< "." << endl;
 		rotor_file.close();
 		error = INVALID_ROTOR_MAPPING;
 		return false;
@@ -182,7 +192,8 @@ void Rotor::convert_rotor(int rotor_[])
 
 }
 
-void Rotor::calibrate_start_pos(int positions[], int rotor_index, int num_rotors)
+void Rotor::calibrate_start_pos(int positions[], int rotor_index, 
+				int num_rotors)
 {
 
 	while (mapping[0][0] != positions[(num_rotors - 1) - rotor_index])
@@ -190,7 +201,8 @@ void Rotor::calibrate_start_pos(int positions[], int rotor_index, int num_rotors
 		rotor_rotate();
 	}
 
-	while (mapping_backwards[0][1] != positions[(num_rotors - 1) - rotor_index])
+	while (mapping_backwards[0][1] != positions[(num_rotors - 1) 
+		- rotor_index])
 	{
 		backwards_rotor_rotate();
 	}
