@@ -59,8 +59,8 @@ bool Reflector::set_reflector(char const filename[], int& error)
 		{
 			if(!(symbol_test(reflector_file)))//Check for non-numeric chars
 			{
-				cerr << "Non-numeric character in reflector\
-				file " << filename << "." << endl;
+				cerr << "Non-numeric character in reflector file " 
+				<< filename << "." << endl;
 				reflector_file.close();	
 				error = NON_NUMERIC_CHARACTER;
 				return false;
