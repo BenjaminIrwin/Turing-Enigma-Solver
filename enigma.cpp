@@ -10,7 +10,6 @@ using namespace std;
 
 bool Enigma::set_enigma(int argc, char** argv, int& error)
 {
-	
 	if (argc < 4)//Check input
 	{
 		error = INSUFFICIENT_NUMBER_OF_PARAMETERS;
@@ -33,21 +32,18 @@ bool Enigma::set_enigma(int argc, char** argv, int& error)
 
 	if (num_rotors > 0)//Load rotors
 	{
-		
 		rotors = new Rotor[num_rotors];
 		
 		int j = 0;
 
 		for (int i = num_rotors - 1; i >= 0; i-- )
 		{
-			
 			if (!(rotors[j].set_rotor(argv[i + 3], error)))
 			{
 				return false;
 			}
 			
 			j++;
-	
 		}
 	}
 
@@ -69,8 +65,8 @@ bool Enigma::set_enigma(int argc, char** argv, int& error)
 bool Enigma::fetch_rotor_pos(char const filename[], int num_of_rotors, 
 				int positions[], int& error)
 {
-	ifstream rotor_pos_file;//Open file
-	rotor_pos_file.open(filename);
+	ifstream rotor_pos_file;
+	rotor_pos_file.open(filename);//Open file
 	if(rotor_pos_file.fail())//If error opening file
 	{
 		cerr << "Rotor positions file " << filename << "." << endl;
@@ -102,7 +98,6 @@ bool Enigma::fetch_rotor_pos(char const filename[], int num_of_rotors,
 			return false;
 		}
 
-
 		rotor_pos_file >> positions[index];//Read in
 
 		if (!(range_test(positions, index)))//Check if number within range
@@ -125,8 +120,7 @@ bool Enigma::fetch_rotor_pos(char const filename[], int num_of_rotors,
 		return false;
 	}
 
-		rotor_pos_file.close();
-
+	rotor_pos_file.close();
 	return true;
 }
 
@@ -147,6 +141,7 @@ bool Enigma::encrypt(istream& input, ostream& output, int& error)
 		}
 
 	letter_num = static_cast<int>(letter - 65);
+	
 	if(num_rotors > 0)
 	{
 		rotors[0].rotor_rotate();
@@ -177,7 +172,6 @@ bool Enigma::encrypt(istream& input, ostream& output, int& error)
 	plugboard.operate_plugboard(letter_num);//Operate plugboard 2nd time
 	
 	letter = static_cast<char>(letter_num + 65);
-	
 	output << letter;
 
 	}
@@ -187,7 +181,7 @@ bool Enigma::encrypt(istream& input, ostream& output, int& error)
 
 Enigma::~Enigma()
 {
-	if (num_rotors > 0)
+	if (num_rotors > 0)//Deallocate dynamic rotor array
 	{
 		delete [] rotors;
 	}

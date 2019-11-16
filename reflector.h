@@ -22,7 +22,7 @@ public:
 	int 'i' by reference representing the character to be 
 	encrypted/decrypted.
 
-	Encrypts/decrypts 'i' according to reflector mappings.*/
+	Encrypts/decrypts 'i' according to 'reflector' mappings.*/
 	void operate_reflector(int &i);
 };
 

@@ -8,7 +8,6 @@ using namespace std;
 	
 void Plugboard::operate_plugboard(int &i)
 {
-
 	for (int a = 0; a <= plugboard_size; a++)
 	{
 		if (i == plugboard[a])
@@ -27,7 +26,6 @@ void Plugboard::operate_plugboard(int &i)
 			}
 		}
 	}
-
 } 
 
 bool Plugboard::set_plugboard(char const filename[], int& error)
@@ -56,7 +54,6 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 			error = NON_NUMERIC_CHARACTER;
 			return false;
 		}
-
 
 		plugboard_file >> plugboard[index];//Read in
 
@@ -94,8 +91,6 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 		return false;
 	}
 
-		plugboard_file.close();
-
 	if (!(plugboard_size % 2))//Check if number of mappings is odd
 	{
 		cerr << "Odd number of mappings in plugboard file " 
@@ -105,7 +100,6 @@ bool Plugboard::set_plugboard(char const filename[], int& error)
 		return false;
 	}
 
+	plugboard_file.close();
 	return true;
 }
-
-

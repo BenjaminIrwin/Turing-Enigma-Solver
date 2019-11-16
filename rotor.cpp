@@ -77,7 +77,19 @@ bool Rotor::set_rotor(char const filename[], int& error)
 		return false;
 	}
 
+	if(!set_notches(filename, rotor_file, error))//Read in notches
+		return false;
+
 	convert_rotor(rotor_);//Form mapping and backwards_mapping
+
+
+	return true;
+}
+
+bool Rotor::set_notches(char const filename[], ifstream& rotor_file, 
+				int& error)
+{
+	int index, repeat_index = 0;
 
 	//Read in notches
 	for (index = 0 ; index <= 25 && !(eof_test(rotor_file)) ; index++)

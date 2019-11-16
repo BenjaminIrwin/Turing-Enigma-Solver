@@ -28,20 +28,20 @@ public:
 	/*This function calibrates the rotor's start position according to the
 	values in the 'positions' array. Inputs positions, rotor_index
 	and num_rotors.
-
-	Alters mapping and mapping_backwards such that their values align
-	with the position in positions[rotor_index].*/
+	
+	'Rotates' rotors until mapping[0][0] and mapping_backwards[0][1] equal
+	positions[rotor_index]*/ 
 	void calibrate_start_pos(int positions[], int rotor_index, 
 					int num_rotors);
 
-	/*This function moves a specific value from right to left through the 
+	/*This function 'moves' a specific value from right to left through the 
 	rotor. Inputs an int representing the character to be 
 	encrypted/decrypted.
 
 	Outputs an int representing encrypted/decrypted character.*/
 	char rtol(int i);
 	
-	/*This function moves a specific value from left to right through a 
+	/*This function 'moves' a specific value from left to right through a 
 	specific rotor. Inputs an int representing the character to be 
 	encrypted/decrypted.
 
@@ -55,13 +55,20 @@ private:
 	int notches[26];
 	int num_notches;
 
+	/*This function 'sets' notches for the rotor.
+
+	Loads values from stream 'rotor_file' into 'notches' and counts
+	number of notches in 'num_notches'.*/
+	bool set_notches(char const filename[], ifstream& rotor_file, 
+				int& error);
+
 	/*This function 'rotates' forward rotor array.
 
 	Moves int values in mapping array down one index. Moves values in 
 	*[0][0] to *[25][25]*/
 	void forwards_rotor_rotate();
 
-	/*This function converts the format of the inputted 'rotor_' array. 
+	/*This function 'converts' the format of the inputted 'rotor_' array. 
 
 	Alters mapping and mapping_backwards to contain rotor_ values in 2d
 	array form.*/
@@ -73,11 +80,11 @@ private:
 	Returns int value representing next smallest index.*/
 	int next_smallest_index(int start_index);
 
-	/*This function applies the selection sort algorithm to 
+	/*This function applies a selection sort algorithm to 
 	mapping_backwards.
 
 	Sorts mapping_backwards such that *[1][0] is the lowest integer between
-	*[1][0] and *[1][26].*/
+	*[1][0] and *[1][26] and the values in between are in ascending order.*/
 	void sort_backwards_mapping();
 
 	/*This function copies mapping into mapping backwards swapping the 

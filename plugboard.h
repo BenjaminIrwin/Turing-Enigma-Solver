@@ -22,7 +22,7 @@ public:
 	/*This function moves a specific value through the plugboard. Inputs 
 	int 'i' by reference, the character to be encrypted/decrypted.
 
-	Encrypts/decrypts 'i' according to reflector mappings.*/
+	Encrypts/decrypts 'i' according to plugboard mappings.*/
 	void operate_plugboard(int &i);
 
 };

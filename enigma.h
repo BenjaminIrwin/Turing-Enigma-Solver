@@ -22,7 +22,7 @@ public:
 	bool set_enigma(int argc, char** argv, int& error);
 
 	/*This function fetches the rotor positions and reads in the positions
-	from 'filename'.
+	from file 'filename'.
 
 	Fills 'positions' with the positions.
 
@@ -48,8 +48,8 @@ public:
 private:
 	Rotor* rotors;//Array of rotors
 	int num_rotors = 0;//Number of rotors
-	Plugboard plugboard;//Plugboard
-	Reflector reflector;//Reflector
+	Plugboard plugboard;
+	Reflector reflector;
 };
 
 

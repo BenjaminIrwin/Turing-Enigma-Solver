@@ -42,7 +42,6 @@ bool Reflector::set_reflector(char const filename[], int& error)
 		return false;
 	}
 
-
 	if (eof_test(reflector_file))//Check if file empty
 	{
 		cerr << "Reflector file " << filename << " empty." << endl;
@@ -65,7 +64,6 @@ bool Reflector::set_reflector(char const filename[], int& error)
 				error = NON_NUMERIC_CHARACTER;
 				return false;
 			}
-
 
 			reflector_file >> reflector[index];//Read in
 
@@ -116,9 +114,8 @@ bool Reflector::set_reflector(char const filename[], int& error)
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 		return false;
 	}
-
-		reflector_file.close();
-
+	
+	reflector_file.close();
 	return true;
 
 }
