@@ -119,7 +119,7 @@ bool Enigma::fetch_rotor_pos(char const filename[], int num_of_rotors,
 		error = NO_ROTOR_STARTING_POSITION;
 		return false;
 	}
-	
+
 	rotor_pos_file.close();
 	return true;
 }
