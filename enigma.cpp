@@ -34,12 +34,16 @@ bool Enigma::set_enigma(int argc, char** argv, int& error)
 	{
 		rotors = new Rotor[num_rotors];
 		
-		for (int i = 0 ; i < num_rotors ; i++ )
+		int j = 0;
+
+		for (int i = num_rotors - 1; i >= 0; i-- )
 		{
-			if (!(rotors[i].set_rotor(argv[i + 3], error)))
+			if (!(rotors[j].set_rotor(argv[i + 3], error)))
 			{
 				return false;
 			}
+			
+			j++;
 		}
 	}
 
@@ -50,32 +54,11 @@ bool Enigma::set_enigma(int argc, char** argv, int& error)
 		return false;
 	}
 
-	for (int j = 0; j < num_rotors; j++)
-	{
-	
-	cout << endl << "ROTOR " << j << ": " << endl;
-	for (int i = 0; i < 26; i++)
-	{
-		cout << rotors[j].mapping[i][0] << "  " << rotors[j].mapping[i][1] << 
-		" | | " << rotors[j].mapping_backwards[i][0] << "  " << 
-		rotors[j].mapping_backwards[i][1] << endl;
-	}
-	}
 	for (int i = 0 ; i < num_rotors ; i++)//Calibrate starting positions
 	{
-		rotors[i].calibrate_start_pos(positions, i);
+		rotors[i].calibrate_start_pos(positions, i, num_rotors);
 	}
 
-	for (int j = 0; j < num_rotors; j++)
-	{
-		cout << endl << "ROTORS CALIBRATED: " << ": " << endl;
-		for (int i = 0; i < 26; i++)
-		{
-			cout << rotors[j].mapping[i][0] << "  " << rotors[j].mapping[i][1] << 
-			" | | " << rotors[j].mapping_backwards[i][0] << "  " << 
-			rotors[j].mapping_backwards[i][1] << endl;
-		}
-	}
 	return true;
 }
 
@@ -105,6 +88,7 @@ bool Enigma::fetch_rotor_pos(char const filename[], int num_of_rotors,
 
 	for (index = 0 ; index < num_of_rotors && !(eof_test(rotor_pos_file)) ; index++)
 	{
+
 		if(!(symbol_test(rotor_pos_file)))//Check for non-numeric symbols
 		{
 			cerr << "Non-numeric character in rotor positions file " 
@@ -173,18 +157,17 @@ bool Enigma::encrypt(istream& input, ostream& output, int& error)
 
 	plugboard.operate_plugboard(letter_num);//Operate plugboard 1st time
 
-	for (int i = num_rotors - 1 ; i >= 0 ; i--)//Operate rotors left-right
+	for (int i = 0 ; i < num_rotors ; i++)//Operate rotors right-left
 	{
 		letter_num = rotors[i].rtol(letter_num);
 	}
 
 	reflector.operate_reflector(letter_num);
 
-	for (int i = 0 ; i < num_rotors ; i++)//Operate rotors right-left
+	for (int i = num_rotors - 1 ; i >= 0 ; i--)//Operate rotors left-right
 	{
 		letter_num = rotors[i].ltor(letter_num);
 	}
-
 
 	plugboard.operate_plugboard(letter_num);//Operate plugboard 2nd time
 	
