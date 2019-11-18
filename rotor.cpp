@@ -217,17 +217,17 @@ void Rotor::calibrate_start_pos(int positions[], int rotor_index)
 		backwards_rotor_rotate();
 	}
 
-//	cout << "Rotors rotated: " << endl;
-/*	
+	cout << "Rotors rotated: " << endl;
+	
 	for (int i = 0 ; i <= 25 ; i++)
 	{
 		cout << mapping[i][0] << " " << mapping[i][1] << " | " 
 		<< mapping_backwards[i][0] << " " << mapping_backwards[i][1] << endl;
 	}
-*/
+
 }
 
-char Rotor::rtol(int i)
+char Rotor::ltor(int i)
 {
 	int x, j = mapping[i][1];
 
@@ -236,7 +236,7 @@ char Rotor::rtol(int i)
 	return x;
 }
 
-char Rotor::ltor(int i)
+char Rotor::rtol(int i)
 {
 
 	int x, j = mapping_backwards[i][0];
