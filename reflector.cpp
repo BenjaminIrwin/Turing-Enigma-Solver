@@ -92,21 +92,21 @@ bool Reflector::set_reflector(char const filename[], int& error)
 		}
 	}	
 
-	if (index % 2)//Check if number read in is odd
+	if (index % 2)//Check if total read in is odd
 	{
 		cerr << "Incorrect (odd) number of mappings in reflector file " 
 		<< filename << "." << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 		return false;
-	} else if (index < 26)//Check if number read in is less than 26
+	} else if (index < 26)//Check if total read in is less than 26
 	{
 		cerr << "Insufficient number of mappings in reflector file " 
 		<< filename << "." << endl;
 		reflector_file.close();
 		error = INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
 
-	} else if (index > 26)//Check if number read in is over 26
+	} else if (index > 26)//Check if total read in is over 26
 	{
 		cerr << "Too many mappings in reflector file " << filename 
 		<< "." << endl;
