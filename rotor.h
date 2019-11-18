@@ -31,7 +31,8 @@ public:
 	
 	'Rotates' rotors until mapping[0][0] and mapping_backwards[0][1] equal
 	positions[rotor_index]*/ 
-	void calibrate_start_pos(int positions[], int rotor_index);
+	void calibrate_start_pos(int positions[], int rotor_index, 
+					int num_rotors);
 
 	/*This function 'moves' a specific value from right to left through the 
 	rotor. Inputs an int representing the character to be 
