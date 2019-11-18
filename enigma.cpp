@@ -36,7 +36,7 @@ bool Enigma::set_enigma(int argc, char** argv, int& error)
 		
 		int j = 0;
 
-		for (int i = num_rotors - 1; i >= 0; i-- )
+		for (int i = 0; i < num_rotors; i++)
 		{
 			if (!(rotors[j].set_rotor(argv[i + 3], error)))
 			{
@@ -56,7 +56,7 @@ bool Enigma::set_enigma(int argc, char** argv, int& error)
 
 	for (int i = 0 ; i < num_rotors ; i++)//Calibrate starting positions
 	{
-		rotors[i].calibrate_start_pos(positions, i, num_rotors);
+		rotors[i].calibrate_start_pos(positions, i);
 	}
 
 	return true;
@@ -119,7 +119,7 @@ bool Enigma::fetch_rotor_pos(char const filename[], int num_of_rotors,
 		error = NO_ROTOR_STARTING_POSITION;
 		return false;
 	}
-
+	
 	rotor_pos_file.close();
 	return true;
 }
@@ -157,14 +157,14 @@ bool Enigma::encrypt(istream& input, ostream& output, int& error)
 
 	plugboard.operate_plugboard(letter_num);//Operate plugboard 1st time
 
-	for (int i = 0 ; i < num_rotors ; i++)//Operate rotors right-left
+	for (int i = num_rotors - 1 ; i >= 0 ; i--)//Operate rotors right-left
 	{
 		letter_num = rotors[i].rtol(letter_num);
 	}
 
 	reflector.operate_reflector(letter_num);
 
-	for (int i = num_rotors - 1 ; i >= 0 ; i--)//Operate rotors left-right
+	for (int i = 0 ; i < num_rotors ; i++)//Operate rotors left-right
 	{
 		letter_num = rotors[i].ltor(letter_num);
 	}

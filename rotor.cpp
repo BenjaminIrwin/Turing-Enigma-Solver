@@ -204,20 +204,27 @@ void Rotor::convert_rotor(int rotor_[])
 
 }
 
-void Rotor::calibrate_start_pos(int positions[], int rotor_index, 
-				int num_rotors)
+void Rotor::calibrate_start_pos(int positions[], int rotor_index)
 {
 
-	while (mapping[0][0] != positions[(num_rotors - 1) - rotor_index])
+	while (mapping[0][0] != positions[rotor_index])
 	{
 		rotor_rotate();
 	}
 
-	while (mapping_backwards[0][1] != positions[(num_rotors - 1) 
-		- rotor_index])
+	while (mapping_backwards[0][1] != positions[rotor_index])
 	{
 		backwards_rotor_rotate();
 	}
+
+//	cout << "Rotors rotated: " << endl;
+/*	
+	for (int i = 0 ; i <= 25 ; i++)
+	{
+		cout << mapping[i][0] << " " << mapping[i][1] << " | " 
+		<< mapping_backwards[i][0] << " " << mapping_backwards[i][1] << endl;
+	}
+*/
 }
 
 char Rotor::rtol(int i)
