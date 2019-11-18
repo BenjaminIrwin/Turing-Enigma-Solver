@@ -31,8 +31,7 @@ public:
 	
 	'Rotates' rotors until mapping[0][0] and mapping_backwards[0][1] equal
 	positions[rotor_index]*/ 
-	void calibrate_start_pos(int positions[], int rotor_index, 
-					int num_rotors);
+	void calibrate_start_pos(int positions[], int rotor_index);
 
 	/*This function 'moves' a specific value from right to left through the 
 	rotor. Inputs an int representing the character to be 
@@ -48,10 +47,10 @@ public:
 	Outputs an int representing encrypted/decrypted character.*/
 	char ltor(int i);
 
-private:
-	int starting_pos;
 	int mapping[26][2];
 	int mapping_backwards[26][2];
+private:
+	int starting_pos;
 	int notches[26];
 	int num_notches;
 
